@@ -1,74 +1,22 @@
-
-const CACHE = 'flex-rolling-v2';
-const ASSETS = [
-  './',
-  './index.html',
-  './manifest.webmanifest',
-  './icon-192.png',
-  './icon-512.png'
-];
-
+// Flex Rolling 7 Days — network-first navigation, offline fallback.
+const CACHE = 'flex-rolling-ocr-20261014-v4';
 self.addEventListener('install', event => {
-  event.waitUntil(
-    caches.open(CACHE).then(cache => cache.addAll(ASSETS))
-  );
+  event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(['./index.html']).catch(()=>{})));
   self.skipWaiting();
 });
-
 self.addEventListener('activate', event => {
-  event.waitUntil(
-    caches.keys().then(keys => Promise.all(
-      keys.filter(key =>
-        key.startsWith('flex-rolling-') && key !== CACHE
-      ).map(key => caches.delete(key))
-    )).then(() => self.clients.claim())
-  );
+  event.waitUntil(Promise.all([
+    caches.keys().then(keys => Promise.all(keys.filter(key => key.startsWith('flex-rolling-') && key !== CACHE).map(key => caches.delete(key)))),
+    self.clients.claim()
+  ]));
 });
-
 self.addEventListener('fetch', event => {
-  if (event.request.method !== 'GET') return;
-
-  const url = new URL(event.request.url);
-  if (url.origin !== self.location.origin) return;
-
-  const isPage = event.request.mode === 'navigate' ||
-    url.pathname.endsWith('/index.html') ||
-    url.pathname.endsWith('/');
-
-  if (isPage) {
-    event.respondWith(
-      fetch(event.request).then(response => {
-        if (response.ok) {
-          const copy = response.clone();
-          event.waitUntil(
-            caches.open(CACHE).then(cache =>
-              cache.put(event.request, copy)
-            )
-          );
-        }
-        return response;
-      }).catch(() =>
-        caches.match(event.request).then(cached =>
-          cached || caches.match('./index.html')
-        )
-      )
-    );
-    return;
+  const request = event.request;
+  if (request.method !== 'GET' || new URL(request.url).origin !== self.location.origin) return;
+  if (request.mode === 'navigate' || request.url.endsWith('/index.html')) {
+    event.respondWith(fetch(request).then(response => {
+      if (response.ok) { const copy=response.clone(); caches.open(CACHE).then(cache=>cache.put(request,copy)); }
+      return response;
+    }).catch(async () => (await caches.match(request)) || (await caches.match('./index.html')) || Response.error()));
   }
-
-  event.respondWith(
-    caches.match(event.request).then(cached =>
-      cached || fetch(event.request).then(response => {
-        if (response.ok) {
-          const copy = response.clone();
-          event.waitUntil(
-            caches.open(CACHE).then(cache =>
-              cache.put(event.request, copy)
-            )
-          );
-        }
-        return response;
-      })
-    )
-  );
 });
