@@ -1,6 +1,61 @@
 <!doctype html><html lang="vi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#102a43"><title>Flex Rolling 7 Days</title><link rel="manifest" href="./manifest.webmanifest"><link rel="icon" href="./icon-192.png"><meta name="apple-mobile-web-app-capable" content="yes"><style>
 :root{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:#17324a;background:#edf4f8}*{box-sizing:border-box}body{margin:0}header{background:linear-gradient(125deg,#0c385c,#117ba0);color:white;padding:28px 18px 24px}main{max-width:790px;margin:auto;padding:16px 14px 50px}.wrap{max-width:790px;margin:auto}h1{font-size:25px;margin:4px 0 6px}h2{font-size:17px;margin:0 0 12px}.sub{opacity:.85;font-size:13px;line-height:1.5}.card{background:white;border-radius:17px;padding:17px;margin:0 0 14px;box-shadow:0 2px 10px #0b36500e}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.metric{background:#eff6fb;border-radius:12px;padding:13px}.metric small{display:block;color:#52697b;margin-bottom:6px}.metric strong{font-size:24px;letter-spacing:-.7px}.green{color:#087c64}.red{color:#bb3b32}.muted{font-size:12px;color:#64798b;line-height:1.5}.controls{display:flex;gap:8px;flex-wrap:wrap;align-items:center}label{font-size:12px;font-weight:650;display:block;margin-bottom:5px}input,select{width:100%;font:inherit;border:1px solid #c8d9e4;border-radius:9px;padding:10px;background:white;color:#17324a}input[type=date]{min-width:0}button{border:0;border-radius:10px;background:#087aa4;color:white;padding:11px 13px;font-weight:700;cursor:pointer}button.secondary{background:#e6f0f5;color:#17425e}button.danger{background:#fbe8e7;color:#a02d27}.row{display:grid;grid-template-columns:1.1fr 1fr 1fr auto;gap:8px;align-items:end;margin:9px 0}.row button{padding:10px}.smalltitle{font-weight:700;font-size:13px;margin:12px 0 8px}.forecast{width:100%;border-collapse:collapse;font-size:13px}th,td{padding:10px 5px;border-bottom:1px solid #e5edf2;text-align:right}th:first-child,td:first-child{text-align:left}th{font-size:11px;color:#52697b}.pill{display:inline-block;padding:4px 8px;border-radius:50px;background:#e4f5ee;color:#087c64;font-size:11px;font-weight:700}.warn{background:#fff0d7;color:#895c00}.bar{height:10px;background:#e7eef3;border-radius:20px;overflow:hidden;margin:12px 0}.bar span{display:block;height:100%;background:#0781a8;border-radius:20px}.hint{background:#fff8e9;border-left:3px solid #e6a533;padding:10px 12px;border-radius:8px;font-size:12px;line-height:1.55}.note{font-size:12px;color:#536a7d;line-height:1.6}footer{font-size:11px;color:#607789;text-align:center;margin-top:15px}@media(max-width:420px){.row{grid-template-columns:1.1fr .9fr .9fr auto;gap:5px}.row input{padding:8px 5px;font-size:13px}.row button{padding:9px 8px}.forecast{font-size:11px}th,td{padding:9px 3px}.metric strong{font-size:21px}}
 
+/* Responsive layout fixes for Safari on iPhone and Android browsers */
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%;width:100%;overflow-x:hidden}
+body{width:100%;max-width:100%;overflow-x:hidden}
+main,header,.wrap,.card,.grid,.metric,.grid>div{min-width:0;max-width:100%}
+.grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px;align-items:stretch}
+.grid>div{min-width:0}
+.metric{min-width:0;width:100%;height:100%;display:flex;flex-direction:column;justify-content:flex-start;overflow-wrap:anywhere;word-break:normal}
+.metric small{min-width:0;line-height:1.35;min-height:2.7em;overflow-wrap:break-word}
+.metric strong{display:block;max-width:100%;font-variant-numeric:tabular-nums;white-space:nowrap;font-size:clamp(19px,5.1vw,24px);letter-spacing:-.5px}
+input,select,button{max-width:100%;min-width:0}
+.row{min-width:0}
+@media(max-width:420px){main{padding:12px 10px 40px}.card{padding:13px;margin-bottom:12px}.grid{gap:9px}.metric{padding:11px 10px}.metric strong{font-size:clamp(18px,5vw,22px)}.metric small{font-size:12px}.row{grid-template-columns:minmax(0,1.2fr) minmax(0,.9fr) minmax(0,.9fr) auto}}
+@media(max-width:350px){.metric strong{font-size:18px}.metric{padding:10px 8px}.grid{gap:7px}}
+
+/* iPhone Safari: date inputs must shrink inside CSS Grid columns */
+.grid > div { min-width: 0; width: 100%; }
+.grid > div > input { display:block; width:100%; min-width:0; max-width:100%; box-sizing:border-box; }
+.grid input[type="date"] { -webkit-appearance:none; appearance:none; min-width:0; width:100%; max-width:100%; font-size:16px; padding:10px 8px; }
+.grid input[type="number"] { min-width:0; width:100%; font-size:16px; }
+@media (max-width: 420px) { .grid > div > label { overflow-wrap:anywhere; } }
+
+/* iPhone-only entry rows: compact, non-overlapping grid */
+#entries .row{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,.8fr) minmax(0,.8fr) 34px;gap:7px;align-items:center;width:100%;min-width:0}
+#entries .row > input{display:block;width:100%;min-width:0;max-width:100%;box-sizing:border-box;font-size:16px;padding:10px 7px;height:43px}
+#entries .row > input[type=date]{-webkit-appearance:none;appearance:none;min-width:0;max-width:100%;font-size:13px;padding:8px 3px;letter-spacing:-.3px}
+#entries .row > button{width:34px;min-width:34px;max-width:34px;height:43px;padding:0;display:grid;place-items:center}
+@media(max-width:440px){#entries .row{grid-template-columns:minmax(0,1.35fr) minmax(0,.78fr) minmax(0,.78fr) 30px;gap:5px}#entries .row > input{font-size:14px;padding:8px 5px}#entries .row > input[type=date]{font-size:12px;padding:8px 1px}#entries .row > button{width:30px;min-width:30px;max-width:30px}}
+@media(max-width:360px){#entries .row{grid-template-columns:minmax(0,1.3fr) minmax(0,.8fr) minmax(0,.8fr) 28px;gap:4px}#entries .row > input[type=date]{font-size:11px}#entries .row > button{width:28px;min-width:28px;max-width:28px}}
+
+/* iPhone: all four controls on ONE line, like Samsung */
+@media(max-width:600px){
+ #entries .row{display:grid;grid-template-columns:minmax(0,1.32fr) minmax(0,1fr) minmax(0,1fr) 30px;grid-template-rows:44px;gap:5px;align-items:center;padding:3px 0;margin:7px 0;border:0;max-width:100%}
+ #entries .row > input{grid-column:auto;grid-row:auto;width:100%;min-width:0;max-width:100%;height:44px;font-size:14px;padding:8px 5px;line-height:1.2}
+ #entries .row > input[type=date]{grid-column:auto;grid-row:auto;min-width:0;max-width:100%;width:100%;font-size:12px;padding:6px 2px;letter-spacing:-.4px;text-align:left;overflow:hidden;-webkit-appearance:none;appearance:none}
+ #entries .row > input[type=date]::-webkit-date-and-time-value{min-width:0;text-align:left}
+ #entries .row > input[type=date]::-webkit-datetime-edit{min-width:0;padding:0}
+ #entries .row > input[type=date]::-webkit-calendar-picker-indicator{margin:0;padding:0;width:13px;opacity:.8}
+ #entries .row > button{grid-column:auto;grid-row:auto;align-self:center;height:44px;width:30px;min-width:30px;max-width:30px;padding:0}
+}
+@media(max-width:375px){#entries .row{grid-template-columns:minmax(0,1.35fr) minmax(0,.9fr) minmax(0,.9fr) 26px;gap:4px}#entries .row > input[type=date]{font-size:11px}#entries .row > button{width:26px;min-width:26px;max-width:26px}}
+
+/* iPhone alignment refinement: consistent centered dates and no wrapping */
+#entries .row > .date-cell {position:relative;min-width:0;height:44px;border:1px solid #c8d9e4;border-radius:9px;background:#fff;overflow:hidden;display:flex;align-items:center;justify-content:center;}
+#entries .date-cell .date-label {pointer-events:none;display:block;text-align:center;white-space:nowrap;font-size:clamp(10px,2.8vw,13px);font-variant-numeric:tabular-nums;letter-spacing:-.25px;padding:0 2px;width:100%;}
+#entries .date-cell input[type=date] {position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:pointer;z-index:2;padding:0;border:0;}
+#entries .row > input:not([type=date]) {text-align:center;font-variant-numeric:tabular-nums;}
+.forecast{table-layout:fixed;width:100%;font-variant-numeric:tabular-nums;}
+.forecast th,.forecast td{white-space:nowrap;word-break:normal;overflow-wrap:normal;text-align:center;padding:9px 2px;}
+.forecast th:first-child,.forecast td:first-child{text-align:center;width:14%;}
+.forecast th:nth-child(2),.forecast td:nth-child(2){width:20%;}
+.forecast th:nth-child(3),.forecast td:nth-child(3){width:20%;}
+.forecast th:nth-child(4),.forecast td:nth-child(4){width:19%;}
+.forecast th:nth-child(5),.forecast td:nth-child(5){width:27%;}
+@media(max-width:600px){.forecast{font-size:clamp(10px,2.8vw,12px)}.forecast th{font-size:clamp(9px,2.45vw,11px);line-height:1.25;white-space:normal}.forecast td{font-size:clamp(10px,2.7vw,12px)} }
+
 
 /* Additive upgrade styles */
 .flex-tools{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}.flex-tools button{flex:1;min-width:115px}
@@ -23,135 +78,86 @@
   #entries .row > input[type="date"] {font-size:16px !important;}
 }
 
-/* Samsung: show full DD/MM/YYYY without native calendar icon clipping the year. */
-#entries .row > .samsung-date-cell{position:relative;min-width:0;width:100%;height:44px;display:flex;align-items:center;justify-content:center;border:1px solid #c8d9e4;border-radius:9px;background:#fff;overflow:hidden}
-#entries .samsung-date-label{display:block;min-width:0;width:100%;text-align:center;white-space:nowrap;font-size:clamp(10px,2.8vw,13px);letter-spacing:-.25px;font-variant-numeric:tabular-nums;pointer-events:none}
-#entries .samsung-date-cell input[type=date]{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:pointer;border:0;padding:0;font-size:16px!important;z-index:1}
-@media(max-width:420px){#entries .row{grid-template-columns:minmax(0,1.35fr) minmax(0,.95fr) minmax(0,.95fr) 30px;gap:5px;align-items:center}#entries .row>input{min-width:0;width:100%;font-size:16px!important;padding:8px 5px;text-align:center}#entries .row>button{width:30px;min-width:30px;padding:9px 0}}
-
-/* Samsung date row: match the requested full-size, left-aligned layout. */
-#entries .row > .samsung-date-cell {
-  justify-content:flex-start;
-  padding:0 29px 0 10px;
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2.3' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='5' width='18' height='16' rx='2'/%3E%3Cpath d='M7 3v4M17 3v4M3 10h18'/%3E%3C/svg%3E");
-  background-repeat:no-repeat;
-  background-position:right 9px center;
-  background-size:18px 18px;
-}
-#entries .samsung-date-label {
-  width:auto;
-  text-align:left;
-  font-size:16px;
-  letter-spacing:0;
-  white-space:nowrap;
-  font-variant-numeric:tabular-nums;
-}
-#entries .row > input:not([type=date]) {
-  font-size:16px !important;
-  text-align:left !important;
-  padding-left:10px !important;
-}
-@media(max-width:370px){
-  #entries .row > .samsung-date-cell {padding-left:6px;padding-right:22px;background-size:15px 15px;background-position:right 5px center}
-  #entries .samsung-date-label {font-size:14px}
-  #entries .row > input:not([type=date]) {padding-left:7px !important}
-}
-
-/* Samsung: balanced four-column layout, matching the user's second screenshot.
-   Keep the full date and calendar icon on one line at normal Android widths. */
-@media(max-width:520px){
-  #entries .row{
-    display:grid!important;
-    grid-template-columns:minmax(0,1.20fr) minmax(0,1fr) minmax(0,1fr) 30px!important;
-    gap:5px!important;
-    align-items:center!important;
-  }
-  #entries .row > .samsung-date-cell{
-    width:100%!important; min-width:0!important; height:44px!important;
-    padding:0 22px 0 6px!important;
-    justify-content:flex-start!important;
-    background-size:14px 14px!important;
-    background-position:right 5px center!important;
-  }
-  #entries .row > .samsung-date-cell .samsung-date-label{
-    display:block!important;width:auto!important;max-width:100%!important;
-    font-size:13px!important;letter-spacing:-.2px!important;
-    text-align:left!important;white-space:nowrap!important;
-    overflow:visible!important;line-height:1.2!important;
-  }
-  #entries .row > input:not([type=date]){
-    min-width:0!important;width:100%!important;
-    font-size:16px!important;text-align:left!important;padding:8px 5px!important;
-  }
-  #entries .row > button{width:30px!important;min-width:30px!important;padding:9px 0!important}
-}
-@media(max-width:365px){
-  #entries .row{grid-template-columns:minmax(0,1.27fr) minmax(0,1fr) minmax(0,1fr) 27px!important;gap:4px!important}
-  #entries .row > .samsung-date-cell{padding-left:4px!important;padding-right:18px!important;background-size:12px 12px!important;background-position:right 3px center!important}
-  #entries .row > .samsung-date-cell .samsung-date-label{font-size:12px!important;letter-spacing:-.35px!important}
-  #entries .row > button{width:27px!important;min-width:27px!important}
-}
-
-/* Samsung final: prioritize full-size date, compress the two hour columns.
-   All three values share exactly the same 16px font size. */
-@media(max-width:520px){
-  #entries .row {
-    grid-template-columns:minmax(0,1.58fr) minmax(0,.82fr) minmax(0,.82fr) 30px!important;
-    gap:5px!important;
-  }
-  #entries .row > .samsung-date-cell {
-    padding:0 25px 0 8px!important;
-    background-size:16px 16px!important;
-    background-position:right 5px center!important;
-  }
-  #entries .row > .samsung-date-cell .samsung-date-label {
-    font-size:16px!important;
-    letter-spacing:0!important;
-    font-variant-numeric:tabular-nums!important;
-  }
-  #entries .row > input:not([type=date]) {
-    font-size:16px!important;
-    padding:8px 6px!important;
-    text-align:left!important;
-    font-variant-numeric:tabular-nums!important;
-  }
-}
-@media(max-width:365px){
-  #entries .row{grid-template-columns:minmax(0,1.62fr) minmax(0,.8fr) minmax(0,.8fr) 27px!important;gap:4px!important}
-  #entries .row > .samsung-date-cell{padding:0 19px 0 5px!important;background-size:13px 13px!important;background-position:right 3px center!important}
-  #entries .row > .samsung-date-cell .samsung-date-label{font-size:16px!important;letter-spacing:-.35px!important}
-}
-
-/* Samsung dashboard: center all hour/minute values inside their metric cards.
-   Reserve the same title area for one-line and two-line labels. */
-.metric{display:flex;flex-direction:column;min-height:112px;}
-.metric small{min-height:2.9em;line-height:1.45;margin-bottom:0;}
-.metric strong{display:flex;align-items:center;justify-content:center;flex:1;width:100%;text-align:center;line-height:1.2;}
-/* Rolling OUT labels: no change to existing Samsung row columns. */
+/* Rolling OUT: iPhone layout is otherwise unchanged. */
 #flex-out-controls{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin:12px 0 6px;font-size:12px}
 #flex-out-controls label{display:flex;align-items:center;gap:6px;margin:0;font-size:12px;cursor:pointer}
-#flex-out-controls input{width:auto;accent-color:#087aa4}
+#flex-out-controls input[type="checkbox"]{width:auto;accent-color:#087aa4}
 #flex-out-count{color:#a02d27;font-weight:700}
-#entries .row.flex-out-row .samsung-date-cell{border-color:#d65b55;background:#fff0ef}
-#entries .row.flex-out-row .samsung-date-label{color:#b7352e;font-weight:800}
 #entries .row.flex-out-row{position:relative;margin-top:23px}
-#entries .row.flex-out-row:before{content:'OUT';position:absolute;top:-19px;left:0;font-size:10px;font-weight:800;color:#b7352e}
+#entries .row.flex-out-row::before{content:'OUT';position:absolute;top:-19px;left:0;font-size:10px;font-weight:800;color:#b7352e}
+#entries .row.flex-out-row .date-cell{border-color:#d65b55;background:#fff0ef}
+#entries .row.flex-out-row .date-label{color:#b7352e;font-weight:800}
 /* OCR review: 1 field per row on narrow mobile screens; never overlap native time inputs. */
 .flex-review{grid-template-columns:repeat(2,minmax(0,1fr))!important;min-width:0}
 .flex-review>div{min-width:0}.flex-review .flex-date{grid-column:1/-1}
 .flex-review input,.flex-review select{display:block;width:100%;min-width:0;max-width:100%;box-sizing:border-box;font-size:16px!important}
 .flex-review .flex-remove{grid-column:1/-1;width:100%}
 @media(max-width:380px){.flex-review{grid-template-columns:minmax(0,1fr)!important}.flex-review .flex-date,.flex-review .flex-remove{grid-column:1}}
-/* Samsung: keep Next, Previous, Today on one row */
-@media(max-width:520px){
-  .navigation-buttons{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:8px!important;align-items:stretch!important}
-  .navigation-buttons button{width:100%!important;min-width:0!important;padding:11px 8px!important;font-size:13px!important;white-space:nowrap!important}
-  .navigation-buttons #today{grid-column:auto!important}
+
+/* iPhone fix: month picker must stay inside history panel */
+#flex-history-panel{overflow:hidden;}
+#flex-history-panel label{display:block;max-width:100%;}
+#flex-history-panel input[type=month],
+#flex-history-panel select{display:block;width:100%;max-width:100%;min-width:0;box-sizing:border-box;}
+#flex-month{-webkit-appearance:none;appearance:none;display:block;width:100%;max-width:100%;min-width:0;box-sizing:border-box;font-size:16px;line-height:1.2;padding:12px 14px;border:1px solid #c8d9e4;border-radius:12px;background:#fff;overflow:hidden;}
+@supports (-webkit-touch-callout:none){
+  #flex-month{width:calc(100% - 2px);}
 }
-@media(max-width:365px){
-  .navigation-buttons button{font-size:12px!important;padding:10px 6px!important}
+@media(max-width:430px){
+  #flex-month{font-size:15px;padding:11px 12px;}
+  #flex-history-panel{padding:12px 10px;}
 }
-</style><style id="auto-today-styles">.auto-today-row{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:9px;min-height:30px}.auto-today-text{display:flex;align-items:center;gap:7px;margin:0;font-size:12px;font-weight:600;white-space:nowrap}.auto-today-text span{font-size:10px;opacity:.7}.auto-today-switch{position:relative;display:inline-block;width:43px;height:25px;flex:none}.auto-today-switch input{position:absolute;opacity:0;width:100%;height:100%;margin:0;cursor:pointer}.auto-today-track{display:block;width:43px;height:25px;background:#a6adb5;border-radius:20px;transition:background .2s;pointer-events:none}.auto-today-track:after{content:"";position:absolute;top:3px;left:3px;width:19px;height:19px;background:white;border-radius:50%;box-shadow:0 1px 3px #0003;transition:transform .2s}#auto-today:checked+.auto-today-track{background:#4386f5}#auto-today:checked+.auto-today-track:after{transform:translateX(18px)}#auto-today:focus-visible+.auto-today-track{outline:2px solid #2563eb;outline-offset:3px}</style>
+
+
+/* iPhone-only OCR review: separate native start/end time controls safely. */
+#flex-review-list .flex-review{
+  grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  column-gap:14px!important;
+  row-gap:10px!important;
+  width:100%;min-width:0;
+}
+#flex-review-list .flex-review > div{
+  min-width:0!important;
+  max-width:100%;
+  width:100%;
+  box-sizing:border-box;
+}
+#flex-review-list .flex-review input[type="time"]{
+  display:block;
+  box-sizing:border-box!important;
+  width:100%!important;
+  min-width:0!important;
+  max-width:100%!important;
+  margin:0!important;
+  padding:10px 8px!important;
+  border:1px solid #c8d9e4;
+  border-radius:9px;
+  background:#fff;
+  font-size:16px!important;
+  font-variant-numeric:tabular-nums;
+  line-height:1.25;
+  height:46px;
+  -webkit-appearance:none;
+  appearance:none;
+}
+#flex-review-list .flex-review .flex-date,
+#flex-review-list .flex-review .flex-remove{grid-column:1/-1!important}
+/* Safari time controls have intrinsic content widths; stack on narrow iPhones. */
+@media(max-width:430px){
+  #flex-review-list .flex-review{
+    grid-template-columns:minmax(0,1fr)!important;
+    column-gap:0!important;
+  }
+  #flex-review-list .flex-review > div,
+  #flex-review-list .flex-review .flex-date,
+  #flex-review-list .flex-review .flex-remove{grid-column:1!important}
+  #flex-review-list .flex-review input[type="time"]{
+    width:100%!important;
+    text-align:center;
+  }
+}
+
+</style><style id="auto-today-styles">.auto-today-row{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:9px;min-height:30px}.auto-today-text{display:flex;align-items:center;gap:7px;margin:0;font-size:12px;font-weight:600;white-space:nowrap}.auto-today-text span{font-size:10px;opacity:.7}.auto-today-switch{position:relative;display:inline-block;width:43px;height:25px;flex:none}.auto-today-switch input{position:absolute;opacity:0;width:100%;height:100%;margin:0;cursor:pointer}.auto-today-track{display:block;width:43px;height:25px;background:#a6adb5;border-radius:20px;transition:background .2s;pointer-events:none}.auto-today-track:after{content:"";position:absolute;top:3px;left:3px;width:19px;height:19px;background:white;border-radius:50%;box-shadow:0 1px 3px #0003;transition:transform .2s}#auto-today:checked+.auto-today-track{background:#30c76a}#auto-today:checked+.auto-today-track:after{transform:translateX(18px)}#auto-today:focus-visible+.auto-today-track{outline:2px solid #2563eb;outline-offset:3px}</style>
 <style id="date-picker-ui-patch">
 
 /* Add day: a native date picker covers the existing button on touch devices.
@@ -160,15 +166,29 @@
 .flex-add-day-wrap>button{display:block;white-space:nowrap}
 #flex-add-date-picker{position:absolute;inset:0;z-index:2;opacity:0;width:100%;height:100%;min-width:0;max-width:100%;padding:0;margin:0;border:0;cursor:pointer;font-size:16px!important;box-sizing:border-box}
 
-/* Samsung: keep Next, Previous, Today on one row */
-@media(max-width:520px){
-  .navigation-buttons{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:8px!important;align-items:stretch!important}
-  .navigation-buttons button{width:100%!important;min-width:0!important;padding:11px 8px!important;font-size:13px!important;white-space:nowrap!important}
-  .navigation-buttons #today{grid-column:auto!important}
+/* iPhone only: match the date text size to both hours columns. */
+#entries .date-cell .date-label{font-size:16px!important;letter-spacing:-.25px!important;font-variant-numeric:tabular-nums!important;padding:0 1px!important;line-height:1.2}
+/* iPhone only: keep the month picker inside its rounded history container. */
+#flex-history-panel{min-width:0!important;max-width:100%!important;box-sizing:border-box!important;overflow:hidden}
+#flex-month{display:block!important;width:100%!important;min-width:0!important;max-width:100%!important;box-sizing:border-box!important;font-size:16px!important;overflow:hidden!important}
+#flex-month::-webkit-date-and-time-value{min-width:0;text-align:left}
+#flex-month::-webkit-datetime-edit{min-width:0;max-width:100%;padding:0}
+
+
+/* iPhone fix: month picker must stay inside history panel */
+#flex-history-panel{overflow:hidden;}
+#flex-history-panel label{display:block;max-width:100%;}
+#flex-history-panel input[type=month],
+#flex-history-panel select{display:block;width:100%;max-width:100%;min-width:0;box-sizing:border-box;}
+#flex-month{-webkit-appearance:none;appearance:none;display:block;width:100%;max-width:100%;min-width:0;box-sizing:border-box;font-size:16px;line-height:1.2;padding:12px 14px;border:1px solid #c8d9e4;border-radius:12px;background:#fff;overflow:hidden;}
+@supports (-webkit-touch-callout:none){
+  #flex-month{width:calc(100% - 2px);}
 }
-@media(max-width:365px){
-  .navigation-buttons button{font-size:12px!important;padding:10px 6px!important}
+@media(max-width:430px){
+  #flex-month{font-size:15px;padding:11px 12px;}
+  #flex-history-panel{padding:12px 10px;}
 }
+
 </style>
 <style id="weekday-uniform-ui">
 
@@ -195,13 +215,14 @@
 .flex-review .flex-date .weekday-date-preview{display:flex;align-items:center;min-width:0;width:100%;min-height:44px;border:1px solid #c8d9e4;border-radius:9px;padding:8px 9px;background:#fff;font-size:16px!important;line-height:1.25;white-space:normal;overflow-wrap:normal;font-variant-numeric:tabular-nums;}
 .flex-review .flex-date input[type=date]{position:absolute;left:0;right:0;bottom:0;width:100%;height:44px;opacity:0;z-index:2;cursor:pointer;max-width:100%;}
 
-@media(max-width:520px){
- #entries .row{grid-template-columns:minmax(0,1.7fr) minmax(0,.78fr) minmax(0,.78fr) 30px!important;}
- #entries .row > .samsung-date-cell{padding-left:6px!important;padding-right:18px!important;background-size:13px 13px!important;background-position:right 3px center!important;}
- #entries .row > .samsung-date-cell .samsung-date-label{font-size:16px!important;line-height:1.23!important;}
+@media(max-width:600px){
+ #entries .row{grid-template-columns:minmax(0,1.58fr) minmax(0,.90fr) minmax(0,.90fr) 30px!important;gap:4px!important;}
+ #entries .row > .date-cell{padding:3px 4px!important;}
+ #entries .row > .date-cell .date-label{font-size:16px!important;}
+ #entries .row > input:not([type=date]){font-size:16px!important;padding:7px 2px!important;text-align:center!important;}
 }
 @media(max-width:365px){
- #entries .row{grid-template-columns:minmax(0,1.7fr) minmax(0,.78fr) minmax(0,.78fr) 27px!important;gap:3px!important;}
+ #entries .row{grid-template-columns:minmax(0,1.62fr) minmax(0,.9fr) minmax(0,.9fr) 26px!important;gap:3px!important;}
 }
 
 /* Single-line weekday layout: equal font size for dates and times. */
@@ -238,10 +259,7 @@ main > section.card:first-of-type > .grid:first-child{
   overflow:hidden!important;
 }
 #entries .row > .samsung-date-cell{
-  padding-right:16px!important;
-  background-size:12px 12px!important;
-  background-position:right 2px center!important;
-  background-repeat:no-repeat!important;
+  background-image:none!important;
 }
 #entries .row > .samsung-date-cell .samsung-date-label,
 #entries .row > .date-cell .date-label{
@@ -295,25 +313,6 @@ main > section.card:first-of-type > .grid:first-child{
 }
 
 </style>
-<style id="samsung-backup-buttons-fix">
-/* Restrict the three-column navigation layout to the navigation controls only. */
-.samsung-backup-card .controls{display:flex;flex-wrap:wrap;align-items:center;gap:8px;}
-.samsung-backup-card .controls>button{display:inline-flex;flex:0 1 auto;align-items:center;justify-content:center;min-width:max-content;max-width:100%;width:auto;padding:11px 13px;white-space:normal;overflow-wrap:normal;word-break:normal;line-height:1.3;font-size:14px;}
-@media(max-width:370px){.samsung-backup-card .controls>button{font-size:13px;padding:10px 11px;}}
-</style>
-
-<style id="samsung-upload-source-style">
-/* Explicit upload source choices for Android; the OS controls the actual picker. */
-#flex-source-chooser[hidden]{display:none!important}
-#flex-source-chooser{background:#f8fbfd;border:1px solid #d9e7ef;border-radius:12px;padding:12px;margin:10px 0}
-#flex-source-chooser .source-title{font-size:14px;font-weight:750;margin:0 0 8px}
-#flex-source-chooser .source-options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
-#flex-source-chooser .source-options button{min-width:0;width:100%;font-size:14px;line-height:1.35;white-space:normal;padding:12px 9px}
-#flex-source-chooser .source-note{font-size:12px;line-height:1.5;color:#536a7d;margin:9px 0 0}
-#flex-source-close{margin-top:10px}
-@media(max-width:360px){#flex-source-chooser .source-options{grid-template-columns:1fr}}
-</style>
-
 <style>
 /* Reserve status actions: wrap cleanly on narrow phones without changing global controls. */
 .flex-reserve-actions{display:flex;gap:5px;flex-wrap:wrap;justify-content:flex-end}
@@ -335,20 +334,11 @@ main > section.card:first-of-type > .grid:first-child{
 </style>
 </head><body><header><div class="wrap"><div style="font-size:12px;letter-spacing:2px;opacity:.8">AMAZON FLEX · PLANNER</div><h1>Rolling 7 Days</h1><div class="sub">Tự tính giới hạn 40 giờ, giờ rơi khỏi rolling, reserve và thời gian còn cho IO.</div></div></header><main>
 <section class="card"><div class="grid"><div><label for="day">Ngày cần kiểm tra</label><div class="weekday-check-date"><span id="weekday-check-label" aria-hidden="true"></span><input id="day" type="date" aria-label="Ngày cần kiểm tra"></div><div class="auto-today-row"><label class="auto-today-text" for="auto-today">Auto Today <span id="auto-today-state">ON</span></label><label class="auto-today-switch"><input id="auto-today" type="checkbox" checked aria-label="Tự động chọn hôm nay"><span class="auto-today-track"></span></label></div></div><div><label for="cap">Giới hạn rolling (giờ)</label><input id="cap" type="number" min="1" max="168" step="0.5" value="40"></div></div><div class="grid" style="margin-top:12px"><div class="metric"><small>Đã chạy trong 7 ngày</small><strong id="used">–</strong></div><div class="metric"><small>Còn trước reserve hôm nay</small><strong class="green" id="free">–</strong></div><div class="metric"><small>Reserve hôm nay</small><strong id="reserved">–</strong></div><div class="metric"><small>Còn cho IO hôm nay</small><strong class="green" id="io">–</strong></div></div><div class="bar"><span id="bar"></span></div><div class="muted" id="window"></div><div class="hint" id="warning" style="margin-top:12px"></div></section>
-<section class="card"><h2>Ngày hôm sau được thêm bao nhiêu giờ?</h2><div class="grid"><div class="metric"><small>Giờ của ngày cũ rơi khỏi rolling</small><strong id="released">–</strong></div><div class="metric"><small>Ngày mai còn cho IO</small><strong class="green" id="tomorrow">–</strong></div></div><p class="note" id="explain"></p><div class="controls navigation-buttons"><button id="next">Xem ngày mai</button><button class="secondary" id="prev">Ngày trước</button><button class="secondary" id="today">Hôm nay</button></div></section>
+<section class="card"><h2>Ngày hôm sau được thêm bao nhiêu giờ?</h2><div class="grid"><div class="metric"><small>Giờ của ngày cũ rơi khỏi rolling</small><strong id="released">–</strong></div><div class="metric"><small>Ngày mai còn cho IO</small><strong class="green" id="tomorrow">–</strong></div></div><p class="note" id="explain"></p><div class="controls"><button id="next">Xem ngày mai →</button><button class="secondary" id="prev">← Ngày trước</button><button class="secondary" id="today">Hôm nay</button></div></section>
 <section class="card"><h2>Nhập giờ chạy & reserve</h2><details id="flex-manual"><summary style="cursor:pointer;font-weight:700;margin-bottom:10px">Nhập / chỉnh sửa thủ công (mở khi cần)</summary><p class="note">Nhập theo dạng <b>7:46</b> (7 giờ 46 phút). Giờ thực tế và reserve phải là hai phần <b>không trùng nhau</b>. Khi hoàn thành một reserve, chuyển số giờ đó sang cột thực tế và giảm reserve còn lại về 0.</p><div class="controls"><span class="flex-add-day-wrap"><button class="secondary" id="add" type="button">+ Thêm ngày</button><input id="flex-add-date-picker" type="date" aria-label="Chọn ngày để thêm" title="Chọn ngày để thêm"></span><button class="secondary" id="seed">Khôi phục dữ liệu mẫu</button><button class="danger" id="clear">Xóa tất cả</button></div><div class="smalltitle">Ngày · Giờ đã chạy · Giờ reserve chưa chạy</div><div id="flex-out-controls"><label><input id="flex-hide-out" type="checkbox" checked> Ẩn ngày đã OUT</label><span id="flex-out-count" aria-live="polite"></span><label><input id="flex-show-all-dates" type="checkbox"> Xem tất cả ngày đã lưu</label></div><p class="muted" id="flex-auto-day-note" style="margin:4px 0 12px;font-size:12px"></p><div id="entries"></div><p class="muted">Dữ liệu được lưu tự động trên trình duyệt thiết bị này. Không cần đăng nhập.</p></details></section>
 
 <section class="card" id="flex-upgrade"><h2>Upload ảnh & Lịch sử</h2><p class="note">Upload Your Schedule để giữ giờ Reserve. Cuối ngày upload đầy đủ Earnings (Paid hoặc Tips pending), xác nhận và chốt giờ thực tế để cập nhật Rolling 7 Days. Không cần phân biệt IO và Reserve đã chạy.</p>
 <div class="flex-tools"><button id="flex-upload">📷 Upload ảnh</button><button id="flex-zero" class="secondary" title="Chỉ dùng khi cả ngày không chạy chuyến nào">Nghỉ 0h</button><button class="secondary" id="flex-history-toggle">🕘 Xem lịch sử</button></div>
-<div id="flex-source-chooser" hidden role="group" aria-label="Chọn nơi lấy ảnh">
-  <p class="source-title">Chọn nơi lấy ảnh</p>
-  <div class="source-options">
-    <button id="flex-pick-photos" class="secondary" type="button">🖼️ Ảnh / Google Photos</button>
-    <button id="flex-pick-files" type="button">📁 My Files / Ảnh chụp màn hình</button>
-  </div>
-  <p class="source-note">Chọn <b>My Files</b> để duyệt ảnh đã chụp trong máy (ví dụ thư mục Pictures hoặc DCIM/Screenshots). Trình duyệt Samsung/Android quyết định ứng dụng chọn tệp được mở; website không thể ép mở Samsung Gallery.</p>
-  <button id="flex-source-close" class="secondary" type="button">Đóng</button>
-</div>
 <input id="flex-images" type="file" accept="image/*" multiple hidden><p class="muted" style="margin:7px 0 0">Nghỉ 0h: chỉ dùng khi không chạy chuyến nào trong ngày. Nếu có Earnings, chỉ cần Upload ảnh.</p>
 <div id="flex-review-panel" class="flex-panel" hidden>
   <b>Kiểm tra block trước khi lưu</b><p id="flex-ocr-status" class="flex-status" aria-live="polite"></p>
@@ -367,7 +357,7 @@ main > section.card:first-of-type > .grid:first-child{
 <details class="flex-panel"><summary>Đồng bộ iPhone & Samsung (Supabase, tùy chọn)</summary><p class="note">Cần thiết lập Supabase và chính sách bảo mật RLS trước. Không dùng mật khẩu Amazon Flex.</p><label>Supabase Project URL</label><input id="flex-supa-url" placeholder="https://xxxxx.supabase.co" autocomplete="off"><label style="margin-top:8px">Publishable / anon key (không dùng service_role)</label><input id="flex-supa-key" placeholder="sb_publishable_..." autocomplete="off"><label style="margin-top:8px">Email</label><input id="flex-email" type="email" autocomplete="username"><label style="margin-top:8px">Mật khẩu Supabase</label><input id="flex-password" type="password" autocomplete="current-password"><div class="flex-tools"><button id="flex-signup" class="secondary">Tạo tài khoản</button><button id="flex-login">Đăng nhập & đồng bộ</button><button id="flex-logout" class="secondary">Đăng xuất</button></div><div id="flex-sync-status" class="flex-status">Chưa kết nối. Dữ liệu vẫn lưu trên thiết bị.</div></details>
 </section>
 <section class="card"><h2>Dự báo 14 ngày tới</h2><p class="note">Dự báo giả sử bạn không chạy thêm IO mới ngoài các giờ đã nhập. Giờ reserve được giữ chỗ khi tính số giờ IO còn lại.</p><div style="overflow-x:auto"><table class="forecast"><thead><tr><th>Ngày</th><th>Thực tế 7N</th><th>Reserve 7N</th><th>IO còn*</th><th>Giờ rơi ra ngày sau</th></tr></thead><tbody id="forecast"></tbody></table></div><p class="muted">* IO còn = giới hạn − giờ thực tế 7 ngày − tất cả reserve chưa chạy trong cửa sổ 7 ngày (ước tính thận trọng). Chỉ tiêu riêng ngày có thể khác do giới hạn/ngày và cách Amazon xét block tương lai.</p></section>
-<section class="card samsung-backup-card"><h2>Sao lưu dữ liệu</h2><div class="controls"><button id="export" title="Xuất toàn bộ dữ liệu mới nhất để gửi ChatGPT hoặc sao lưu">📤 Cập nhật &amp; xuất JSON</button><button class="secondary" id="importBtn">Nhập bản sao</button><input type="file" id="importFile" accept="application/json" hidden></div></section>
+<section class="card"><h2>Sao lưu dữ liệu</h2><div class="controls"><button id="export" title="Xuất toàn bộ dữ liệu mới nhất để gửi ChatGPT hoặc sao lưu">📤 Cập nhật &amp; xuất JSON</button><button class="secondary" id="importBtn">Nhập bản sao</button><input type="file" id="importFile" accept="application/json" hidden></div></section>
 <footer>Ứng dụng hỗ trợ lập kế hoạch, không kết nối với Amazon Flex và không bảo đảm IO sẽ xuất hiện.</footer></main><script>
 (()=>{'use strict';const $=id=>document.getElementById(id),KEY='flex-rolling-v2',MS=86400000;const samples=[['2026-10-05',316,0],['2026-10-06',248,0],['2026-10-07',306,0],['2026-10-08',174,0],['2026-10-09',260,0],['2026-10-10',433,0],['2026-10-11',477,0],['2026-10-12',466,0],['2026-10-13',0,120],['2026-10-14',0,240],['2026-10-15',0,240],['2026-10-16',0,120]];const initial=()=>Object.fromEntries(samples.map(([d,a,r])=>[d,{a,r}]));let data;try{data=JSON.parse(localStorage.getItem(KEY))||initial()}catch{data=initial()};const iso=d=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;const wd=s=>{if(!/^\d{4}-\d{2}-\d{2}$/.test(s||''))return null;const y=Number(s.slice(0,4)),m=Number(s.slice(5,7)),d=Number(s.slice(8,10));const date=new Date(y,m-1,d);if(date.getFullYear()!==y||date.getMonth()!==m-1||date.getDate()!==d)return null;return ['CN','T2','T3','T4','T5','T6','T7'][date.getDay()]};const wdShort=s=>(wd(s)||'')+' - '+s.slice(8,10)+'/'+s.slice(5,7);const wdFull=s=>wd(s)?wdShort(s)+'/'+s.slice(0,4):'';const wdStacked=s=>wdFull(s);const parseDate=s=>new Date(s+'T12:00:00');const shift=(s,n)=>{let d=parseDate(s);d.setDate(d.getDate()+n);return iso(d)};const fmt=m=>{let neg=m<0;m=Math.abs(Math.round(m));return (neg?'-':'')+Math.floor(m/60)+'h'+String(m%60).padStart(2,'0')+'m'};const parse=s=>{s=String(s||'').trim().replace(',','.');if(!s)return 0;if(/^\d+:\d{1,2}$/.test(s)){let [h,m]=s.split(':').map(Number);return h*60+m}if(/^\d+(\.\d+)?$/.test(s))return Math.round(Number(s)*60);return NaN};const edit=m=>Math.floor(m/60)+':'+String(m%60).padStart(2,'0');const n=d=>data[d]||{a:0,r:0};const sum=(d,k)=>{let s=0;for(let i=0;i<7;i++)s+=n(shift(d,-i))[k]||0;return s};const persist=()=>{localStorage.setItem(KEY,JSON.stringify(data));render()};const outToday=()=>iso(new Date());const isOut=date=>date<shift(outToday(),-6);
 // Display-only sliding window: 4 previous OUT days + 7 rolling days + tomorrow.
@@ -375,11 +365,11 @@ main > section.card:first-of-type > .grid:first-child{
 const visibleRange=()=>{const today=outToday();return {oldest:shift(today,-10),last:shift(today,1)}};
 let shownEveryDate=false;
 const ensureNextDay=()=>{const tomorrow=shift(outToday(),1);if(!Object.prototype.hasOwnProperty.call(data,tomorrow)){data[tomorrow]={a:0,r:0};localStorage.setItem(KEY,JSON.stringify(data))}};
-function renderEntries(){let keys=Object.keys(data).sort();$('entries').replaceChildren();const {oldest,last}=visibleRange();const hiddenCount=keys.filter(date=>date<oldest||(date>last&&!((Number(data[date]?.a)||0)||(Number(data[date]?.r)||0)))).length;
+function renderEntries(){let keys=Object.keys(data).sort();const {oldest,last}=visibleRange();const hiddenCount=keys.filter(date=>date<oldest||(date>last&&!((Number(data[date]?.a)||0)||(Number(data[date]?.r)||0)))).length;
 if(!shownEveryDate)keys=keys.filter(date=>date>=oldest&&(date<=last||(Number(data[date]?.a)||0)>0||(Number(data[date]?.r)||0)>0));
 const outCount=keys.filter(isOut).length;$('flex-out-count').textContent=outCount?outCount+' ngày OUT':'Không có ngày OUT';
 $('flex-auto-day-note').textContent='Tự trượt theo ngày: '+wdFull(oldest)+' → '+wdFull(last)+' (4 ngày OUT gần nhất + 7 ngày Rolling + ngày mai). '+(hiddenCount?hiddenCount+' ngày khác đang ẩn, vẫn giữ trong JSON.':'Dữ liệu ngày cũ luôn được giữ trong JSON.');
-if($('flex-hide-out').checked)keys=keys.filter(date=>!isOut(date));keys.forEach(date=>{let item=data[date],row=document.createElement('div');row.className='row'+(isOut(date)?' flex-out-row':'');let di=document.createElement('input');di.type='date';di.value=date;di.setAttribute('aria-label','Ngày');di.onchange=()=>{if(!di.value)return;data[di.value]=item;if(di.value!==date)delete data[date];persist()};let dateCell=document.createElement('div');dateCell.className='samsung-date-cell';let dateLabel=document.createElement('span');dateLabel.className='samsung-date-label';const showDate=()=>{const v=di.value||date;dateLabel.textContent=wdStacked(v)};showDate();dateCell.append(dateLabel,di);row.append(dateCell);for(const key of ['a','r']){let input=document.createElement('input');input.value=edit(item[key]||0);input.setAttribute('aria-label',key==='a'?'Giờ thực tế':'Giờ reserve');input.onchange=()=>{let val=parse(input.value);if(!Number.isFinite(val)||val<0||val>1440){alert('Nhập giờ hợp lệ như 5:30 hoặc 5.5');input.value=edit(item[key]||0);return}item[key]=val;persist();if(key==='r')document.dispatchEvent(new CustomEvent('flex-manual-reserve-changed',{detail:{date,value:val}}))};row.append(input)}let del=document.createElement('button');del.className='danger';del.textContent='×';del.setAttribute('aria-label','Xóa ngày '+date);del.onclick=()=>{delete data[date];persist()};row.append(del);$('entries').append(row)})}function render(){let day=$('day').value;$('weekday-check-label').textContent=wdStacked(day);let cap=Math.round(Number($('cap').value)*60)||2400,used=sum(day,'a'),reserved=sum(day,'r'),todayReserve=n(day).r||0,free=cap-used,io=cap-used-reserved,old=shift(day,-6),tom=shift(day,1),drop=n(old).a+n(old).r; $('used').textContent=fmt(used);$('free').textContent=fmt(free);$('reserved').textContent=fmt(todayReserve);$('io').textContent=fmt(io);$('io').className=io<0?'red':'green';$('bar').style.width=Math.max(0,Math.min(100,used/cap*100))+'%';$('window').textContent='Cửa sổ: '+shift(day,-6)+' → '+day+' · Reserve chưa chạy trong 7 ngày: '+fmt(reserved);$('released').textContent=fmt(drop);let tomio=cap-sum(tom,'a')-sum(tom,'r');$('tomorrow').textContent=fmt(tomio);$('tomorrow').className=tomio<0?'red':'green';$('explain').textContent='Khi sang '+tom+', ngày '+old+' rời cửa sổ. Giờ thực tế rơi ra: '+fmt(n(old).a)+'. Reserve chưa chạy rơi ra: '+fmt(n(old).r)+'. Nếu không có chuyến mới, khoảng trống rolling tăng tương ứng.';$('warning').textContent=io<0?'⚠ Dữ liệu đã nhập vượt giới hạn 7 ngày '+fmt(cap)+'. Hãy kiểm tra lại giờ hoặc reserve.':io===0?'Bạn đã hết khoảng trống rolling sau khi tính các reserve trong 7 ngày.':'Bạn còn khoảng '+fmt(io)+' theo mô hình 7 ngày sau khi trừ reserve trong cửa sổ. Amazon có thể xét cả reserve ngoài cửa sổ hoặc các giới hạn khác.';let html='';for(let i=0;i<14;i++){let d=shift(day,i),a=sum(d,'a'),r=sum(d,'r'),space=cap-a-r,dropd=shift(d,-6);html+=`<tr><td class="weekday-forecast-date">${wdShort(d)}</td><td>${fmt(a)}</td><td>${fmt(r)}</td><td style="color:${space<0?'#b7352e':'#087c64'};font-weight:700">${fmt(space)}</td><td>${fmt(n(dropd).a+n(dropd).r)}</td></tr>`}$('forecast').innerHTML=html;renderEntries()};let autoToday=true;let lastAutoDate=iso(new Date());const setAutoToday=enabled=>{autoToday=enabled;$('auto-today').checked=enabled;$('auto-today-state').textContent=enabled?'ON':'OFF';if(enabled){lastAutoDate=iso(new Date());$('day').value=lastAutoDate}render()};const manualDay=()=>{if(autoToday)setAutoToday(false);else render()};const refreshToday=()=>{const now=iso(new Date());if(now!==lastAutoDate){lastAutoDate=now;ensureNextDay();if(autoToday)$('day').value=now;}render()};$('day').value=lastAutoDate;$('auto-today').onchange=()=>setAutoToday($('auto-today').checked);$('flex-hide-out').onchange=renderEntries;$('flex-show-all-dates').onchange=()=>{shownEveryDate=$('flex-show-all-dates').checked;renderEntries()};document.addEventListener('visibilitychange',()=>{if(!document.hidden)refreshToday()});window.addEventListener('focus',refreshToday);$('cap').onchange=render;$('day').onchange=manualDay;$('next').onclick=()=>{$('day').value=shift($('day').value,1);manualDay()};$('prev').onclick=()=>{$('day').value=shift($('day').value,-1);manualDay()};$('today').onclick=()=>{setAutoToday(true)};const addDatePicker=$('flex-add-date-picker');
+if($('flex-hide-out').checked)keys=keys.filter(date=>!isOut(date));$('entries').replaceChildren();keys.forEach(date=>{let item=data[date],row=document.createElement('div');row.className='row'+(isOut(date)?' flex-out-row':'');let di=document.createElement('input');di.type='date';di.value=date;di.setAttribute('aria-label','Ngày');di.onchange=()=>{if(!di.value)return;data[di.value]=item;if(di.value!==date)delete data[date];persist()};let dateCell=document.createElement('div');dateCell.className='date-cell';let dateLabel=document.createElement('span');dateLabel.className='date-label';dateLabel.textContent=wdStacked(date);dateCell.append(dateLabel,di);row.append(dateCell);for(const key of ['a','r']){let input=document.createElement('input');input.value=edit(item[key]||0);input.setAttribute('aria-label',key==='a'?'Giờ thực tế':'Giờ reserve');input.onchange=()=>{let val=parse(input.value);if(!Number.isFinite(val)||val<0||val>1440){alert('Nhập giờ hợp lệ như 5:30 hoặc 5.5');input.value=edit(item[key]||0);return}item[key]=val;persist();if(key==='r')document.dispatchEvent(new CustomEvent('flex-manual-reserve-changed',{detail:{date,value:val}}))};row.append(input)}let del=document.createElement('button');del.className='danger';del.textContent='×';del.setAttribute('aria-label','Xóa ngày '+date);del.onclick=()=>{delete data[date];persist()};row.append(del);$('entries').append(row)})}function render(){let day=$('day').value;$('weekday-check-label').textContent=wdStacked(day);let cap=Math.round(Number($('cap').value)*60)||2400,used=sum(day,'a'),reserved=sum(day,'r'),todayReserve=n(day).r||0,free=cap-used,io=cap-used-reserved,old=shift(day,-6),tom=shift(day,1),drop=n(old).a+n(old).r; $('used').textContent=fmt(used);$('free').textContent=fmt(free);$('reserved').textContent=fmt(todayReserve);$('io').textContent=fmt(io);$('io').className=io<0?'red':'green';$('bar').style.width=Math.max(0,Math.min(100,used/cap*100))+'%';$('window').textContent='Cửa sổ: '+shift(day,-6)+' → '+day+' · Reserve chưa chạy trong 7 ngày: '+fmt(reserved);$('released').textContent=fmt(drop);let tomio=cap-sum(tom,'a')-sum(tom,'r');$('tomorrow').textContent=fmt(tomio);$('tomorrow').className=tomio<0?'red':'green';$('explain').textContent='Khi sang '+tom+', ngày '+old+' rời cửa sổ. Giờ thực tế rơi ra: '+fmt(n(old).a)+'. Reserve chưa chạy rơi ra: '+fmt(n(old).r)+'. Nếu không có chuyến mới, khoảng trống rolling tăng tương ứng.';$('warning').textContent=io<0?'⚠ Dữ liệu đã nhập vượt giới hạn 7 ngày '+fmt(cap)+'. Hãy kiểm tra lại giờ hoặc reserve.':io===0?'Bạn đã hết khoảng trống rolling sau khi tính các reserve trong 7 ngày.':'Bạn còn khoảng '+fmt(io)+' theo mô hình 7 ngày sau khi trừ reserve trong cửa sổ. Amazon có thể xét cả reserve ngoài cửa sổ hoặc các giới hạn khác.';let html='';for(let i=0;i<14;i++){let d=shift(day,i),a=sum(d,'a'),r=sum(d,'r'),space=cap-a-r,dropd=shift(d,-6);html+=`<tr><td class="weekday-forecast-date">${wdShort(d)}</td><td>${fmt(a)}</td><td>${fmt(r)}</td><td style="color:${space<0?'#b7352e':'#087c64'};font-weight:700">${fmt(space)}</td><td>${fmt(n(dropd).a+n(dropd).r)}</td></tr>`}$('forecast').innerHTML=html;renderEntries()};let autoToday=true;let lastAutoDate=iso(new Date());const setAutoToday=enabled=>{autoToday=enabled;$('auto-today').checked=enabled;$('auto-today-state').textContent=enabled?'ON':'OFF';if(enabled){lastAutoDate=iso(new Date());$('day').value=lastAutoDate}render()};const manualDay=()=>{if(autoToday)setAutoToday(false);else render()};const refreshToday=()=>{const now=iso(new Date());if(now!==lastAutoDate){lastAutoDate=now;ensureNextDay();if(autoToday)$('day').value=now;}render()};$('day').value=lastAutoDate;$('auto-today').onchange=()=>setAutoToday($('auto-today').checked);$('flex-hide-out').onchange=renderEntries;$('flex-show-all-dates').onchange=()=>{shownEveryDate=$('flex-show-all-dates').checked;renderEntries()};document.addEventListener('visibilitychange',()=>{if(!document.hidden)refreshToday()});window.addEventListener('focus',refreshToday);$('cap').onchange=render;$('day').onchange=manualDay;$('next').onclick=()=>{$('day').value=shift($('day').value,1);manualDay()};$('prev').onclick=()=>{$('day').value=shift($('day').value,-1);manualDay()};$('today').onclick=()=>{setAutoToday(true)};const addDatePicker=$('flex-add-date-picker');
 $('add').onclick=()=>{ // Keyboard fallback: touch users tap the native date input overlay.
  try{if(typeof addDatePicker.showPicker==='function'){addDatePicker.showPicker();return}}catch(_){}
  addDatePicker.focus();addDatePicker.click();
@@ -391,7 +381,7 @@ addDatePicker.onchange=()=>{const d=addDatePicker.value;
  // Never overwrite or reset existing time entries when a date already exists.
  if(!data[d]){data[d]={a:0,r:0};persist()}else render();
 };$('seed').onclick=()=>{if(confirm('Thay dữ liệu hiện tại bằng lịch mẫu 5–16/10?')){data=initial();persist()}};$('clear').onclick=()=>{if(confirm('Xóa toàn bộ giờ chạy và reserve đã lưu?')){data={};persist()}};$('export').onclick=()=>{let blob=new Blob([JSON.stringify({version:2,entries:data},null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='flex-rolling-backup.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),2000)};$('importBtn').onclick=()=>$('importFile').click();$('importFile').onchange=async e=>{try{let obj=JSON.parse(await e.target.files[0].text());if(!obj.entries||typeof obj.entries!=='object')throw Error();data=obj.entries;persist()}catch{alert('File sao lưu không hợp lệ')}};window.flexRefresh=()=>{try{data=JSON.parse(localStorage.getItem(KEY))||{}}catch{data={}};ensureNextDay();render()};ensureNextDay();setInterval(refreshToday,30000);render()})();
-</script><script>if('serviceWorker' in navigator && location.protocol!=='file:'){window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));}</script>
+</script><script>if('serviceWorker' in navigator && location.protocol!=='file:'){window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js?v=flex-upgrade-20261013').catch(()=>{}));}</script>
 <script>
 (()=>{'use strict';
 const $=id=>document.getElementById(id), KEY='flex-rolling-v2', BLOCKKEY='flex-blocks-v1', SETTINGS='flex-sync-config-v1';
@@ -600,15 +590,7 @@ function displayTime(t){const [h,m]=t.split(':').map(Number);return (h%12||12)+'
 function editBlock(id){const old=records.find(b=>b.id===id);if(!old)return;let date=prompt('Ngày YYYY-MM-DD',old.date);if(date===null)return;let start=prompt('Bắt đầu HH:MM (24h)',old.start);if(start===null)return;let end=prompt('Kết thúc HH:MM (24h)',old.end);if(end===null)return;let kind=prompt('Loại: a = Completed, r = Reserve, c = Đã hủy',old.kind);if(kind===null)return;const updated={...old,date,start,end,kind,updatedAt:new Date().toISOString()};if(!safeDate(date)||!/^([01]\d|2[0-3]):[0-5]\d$/.test(start)||!/^([01]\d|2[0-3]):[0-5]\d$/.test(end)||!['a','r','c'].includes(kind)||!(minutes(start,end)>0)){alert('Ngày, giờ hoặc loại block không hợp lệ.');return}if(records.some(b=>b.id!==id&&stamp(b)===stamp(updated))){alert('Block này đã tồn tại.');return}captureBaseline(old.date);captureBaseline(date);baseline[old.date]={a:0,r:0};baseline[date]={a:0,r:0};records=records.map(b=>b.id===id?updated:b);rebuildDates([old.date,date]);saveLocal()}
 $('flex-zero').onclick=settleZeroDay;$('flex-undo').onclick=undoLastImport;$('flex-reserve-undo').onclick=undoLastImport;
 $('flex-history-toggle').onclick=()=>{const box=$('flex-history-panel');box.hidden=!box.hidden;$('flex-history-toggle').textContent=box.hidden?'🕘 Xem lịch sử':'🕘 Ẩn lịch sử';renderExtra()};$('flex-month').value=iso(new Date()).slice(0,7);$('flex-month').onchange=()=>{$('flex-date-filter').value='';renderExtra()};$('flex-date-filter').onchange=renderExtra;
-// A user gesture opens the chooser; each selection directly opens an OS file input.
-const uploadSource=$('flex-source-chooser'),uploadInput=$('flex-images');
-$('flex-upload').onclick=()=>{uploadSource.hidden=!uploadSource.hidden};
-$('flex-source-close').onclick=()=>{uploadSource.hidden=true};
-$('flex-pick-photos').onclick=()=>{uploadInput.accept='image/*';uploadInput.value='';uploadSource.hidden=true;uploadInput.click()};
-// Broad MIME is intentional: Android's document provider/My Files route is generally
-// offered instead of the system photo picker when the input is not image-only.
-$('flex-pick-files').onclick=()=>{uploadInput.accept='*/*';uploadInput.value='';uploadSource.hidden=true;uploadInput.click()};
-$('flex-cancel-review').onclick=()=>{$('flex-review-panel').hidden=true;pendingEarnings=new Set();flexAppendReview=false;$('flex-earnings-confirm').checked=false};
+$('flex-upload').onclick=()=>$('flex-images').click();$('flex-cancel-review').onclick=()=>{$('flex-review-panel').hidden=true;pendingEarnings=new Set();flexAppendReview=false;$('flex-earnings-confirm').checked=false};
 const normalizeTime=(h,m,ampm)=>{h=Number(h);m=Number(m);if(h>23||m>59)return null;if(ampm){if(h<1||h>12)return null;h=h%12+(ampm.toUpperCase()==='PM'?12:0)}return String(h).padStart(2,'0')+':'+String(m).padStart(2,'0')};
 function inferDate(month,day,year,weekday){
  const now=new Date(),candidates=[];for(const y of year?[Number(year)]:[now.getFullYear()-1,now.getFullYear(),now.getFullYear()+1]){
@@ -673,11 +655,7 @@ $('flex-add-block').onclick=()=>reviewRow({date:'',start:'',end:'',kind:'a',sour
 $('flex-add-images').onclick=()=>{if(flexReviewBusy)return;flexAppendReview=true;$('flex-upload').click()};
 function reviewRow(b){let row=document.createElement('div');row.className='flex-review';const field=(label,type,value,cl)=>{let wrap=document.createElement('div');wrap.className=cl||'';let lab=document.createElement('label');lab.textContent=label;let el=document.createElement('input');el.type=type;el.value=value||'';wrap.append(lab,el);row.append(wrap);return el};let date=field('Ngày','date',b.date,'flex-date'),start=field('Bắt đầu','time',b.start),end=field('Kết thúc','time',b.end);const dateWrap=date.parentElement,preview=document.createElement('span');preview.className='weekday-date-preview';preview.setAttribute('aria-hidden','true');const updateReviewDate=()=>{preview.textContent=histWdFull(date.value)||'Chạm để chọn ngày'};dateWrap.insertBefore(preview,date);date.addEventListener('change',updateReviewDate);updateReviewDate();let wrap=document.createElement('div');let lab=document.createElement('label');lab.textContent='Loại';let kind=document.createElement('select');kind.innerHTML='<option value="">Chưa rõ — chọn loại</option><option value="a">Completed</option><option value="r">Reserve</option>';kind.value=b.kind;wrap.append(lab,kind);row.append(wrap);let remove=document.createElement('button');remove.className='danger flex-remove';remove.textContent='Bỏ';remove.onclick=()=>{row.remove();updateClosePreview()};row.append(remove);row.extract=()=>({date:date.value,start:start.value,end:end.value,kind:kind.value,source:b.source||'manual'});for(const el of [date,start,end,kind])el.addEventListener('change',updateClosePreview);$('flex-review-list').append(row);updateClosePreview()}
 $('flex-images').onchange=async e=>{
- const files=[...e.target.files];if(!files.length)return;
- // My Files permits all file types so the Android DocumentsUI opens. Never OCR non-images.
- const invalid=files.filter(f=>!(String(f.type).startsWith('image/')||/\.(png|jpe?g|webp|bmp|gif|heic|heif)$/i.test(f.name)));
- if(invalid.length){alert('Chỉ chọn ảnh chụp màn hình (PNG, JPG hoặc ảnh khác). Hãy bỏ các tệp không phải ảnh và chọn lại.');e.target.value='';return}
- if(flexReviewBusy)return;flexReviewBusy=true;if(!flexAppendReview){pendingEarnings=new Set();$('flex-review-list').replaceChildren()}flexAppendReview=false;$('flex-review-panel').hidden=false;$('flex-earnings-confirm').checked=false;$('flex-ocr-status').textContent='Đang đọc '+files.length+' ảnh…';
+ const files=[...e.target.files];if(!files.length)return;if(flexReviewBusy)return;flexReviewBusy=true;if(!flexAppendReview){pendingEarnings=new Set();$('flex-review-list').replaceChildren()}flexAppendReview=false;$('flex-review-panel').hidden=false;$('flex-earnings-confirm').checked=false;$('flex-ocr-status').textContent='Đang đọc '+files.length+' ảnh…';
  try{if(!window.Tesseract){await new Promise((resolve,reject)=>{let s=document.createElement('script');s.src='https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js';s.onload=resolve;s.onerror=reject;document.head.append(s)})}
   let found=0,unknown=0,unclearKind=0,completedCount=0,reserveCount=0;for(let i=0;i<files.length;i++){$('flex-ocr-status').textContent=`Đang đọc ảnh ${i+1}/${files.length}: ${files[i].name}`;const result=await Tesseract.recognize(files[i],'eng');const parsed=parseImageText(result.data.text);for(const b of parsed.rows){reviewRow({...b,source:parsed.source});found++;if(!b.date)unknown++;if(parsed.source==='unknown')unclearKind++;else if(parsed.source==='earnings')completedCount++;else reserveCount++;if(parsed.source==='earnings'&&b.date)pendingEarnings.add(b.date)} }
   $('flex-ocr-status').textContent=found?`Đã nhận diện ${found} block: ${completedCount} Completed, ${reserveCount} Reserve${unclearKind?', '+unclearKind+' chưa rõ loại':''}${unknown?', '+unknown+' chưa rõ ngày':''}. Đã chọn loại tự động theo nội dung ảnh. Hãy kiểm tra các dòng trước khi lưu; Earnings cuối ngày sẽ chốt giờ và loại Reserve chưa chạy của đúng ngày.`:'Chưa nhận diện được block. Có thể thêm block thủ công bên dưới.';
@@ -818,107 +796,73 @@ reconcileActiveReserves();
 renderExtra();
 })();
 </script>
-
-<!-- Samsung install suggestion: browser-native install requires user gesture and installability. -->
-<style id="samsung-install-prompt-style">
-#samsung-install-prompt{position:fixed;left:max(12px,env(safe-area-inset-left));right:max(12px,env(safe-area-inset-right));bottom:calc(12px + env(safe-area-inset-bottom));z-index:9999;max-width:580px;margin:auto;box-sizing:border-box;background:#fff;border:1px solid #b8d8e8;border-radius:16px;box-shadow:0 6px 30px #0c385c38;padding:14px 42px 14px 15px;color:#17324a;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif}
-#samsung-install-prompt[hidden]{display:none!important}
-#samsung-install-prompt .install-title{font-size:16px;font-weight:800;line-height:1.4}
-#samsung-install-prompt .install-desc{font-size:13px;line-height:1.5;margin:6px 0 10px;color:#536a7d}
-#samsung-install-prompt .install-actions{display:flex;gap:8px;flex-wrap:wrap}
-#samsung-install-prompt button{font-size:14px;padding:10px 13px;min-height:42px}
-#samsung-install-prompt .install-dismiss{position:absolute;right:10px;top:9px;border:0;background:#e6f0f5;color:#17324a;padding:2px 8px;font-size:22px;line-height:1.25}
-#samsung-install-prompt .install-howto{margin-top:8px;font-size:12px;line-height:1.6;white-space:normal;color:#34546a}
-/* Samsung: keep Next, Previous, Today on one row */
-@media(max-width:520px){
-  .navigation-buttons{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:8px!important;align-items:stretch!important}
-  .navigation-buttons button{width:100%!important;min-width:0!important;padding:11px 8px!important;font-size:13px!important;white-space:nowrap!important}
-  .navigation-buttons #today{grid-column:auto!important}
-}
-@media(max-width:365px){
-  .navigation-buttons button{font-size:12px!important;padding:10px 6px!important}
-}
-</style>
-<aside id="samsung-install-prompt" hidden role="region" aria-label="Cài đặt Rolling 7 Days">
-  <button type="button" class="install-dismiss" id="samsung-install-close" aria-label="Đóng lời mời cài đặt">×</button>
-  <div class="install-title">📱 Cài Rolling 7 Days trên Samsung</div>
-  <p class="install-desc">Thêm ứng dụng vào màn hình chính để mở nhanh như một app.</p>
-  <div class="install-actions"><button type="button" id="samsung-install-go">Cài ứng dụng</button></div>
-  <div class="install-howto" id="samsung-install-howto" hidden></div>
-</aside>
-<script id="samsung-install-prompt-script">
-(function(){'use strict';
-  const panel=document.getElementById('samsung-install-prompt');
-  const go=document.getElementById('samsung-install-go');
-  const close=document.getElementById('samsung-install-close');
-  const how=document.getElementById('samsung-install-howto');
-  let installEvent=null;
-  const isStandalone=()=>window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
-  const show=()=>{if(!isStandalone()&&sessionStorage.getItem('flex-install-hidden-this-session')!=='yes')panel.hidden=false};
-  const hide=()=>{panel.hidden=true};
-  function manualInstructions(){
-    const ua=navigator.userAgent||'';
-    const samsung=/SamsungBrowser/i.test(ua);
-    how.textContent=samsung
-      ? 'Samsung Internet: bấm menu ≡ → Thêm trang vào (Add page to) → Màn hình chính (Home screen).'
-      : 'Chrome: bấm menu ⋮ → Thêm vào màn hình chính (Add to Home screen) → Cài đặt (Install app) hoặc Tạo lối tắt.';
-    how.hidden=false;
-    go.textContent='Xem hướng dẫn cài đặt';
-  }
-  window.addEventListener('beforeinstallprompt',function(event){
-    event.preventDefault();
-    installEvent=event;
-    go.textContent='Cài ứng dụng';
-    how.hidden=true;
-    show();
-  });
-  window.addEventListener('appinstalled',function(){installEvent=null;hide()});
-  close.addEventListener('click',function(){sessionStorage.setItem('flex-install-hidden-this-session','yes');hide()});
-  go.addEventListener('click',async function(){
-    if(!installEvent){manualInstructions();return}
-    const event=installEvent;
-    installEvent=null;
-    try{
-      await event.prompt();
-      const choice=await event.userChoice;
-      if(choice&&choice.outcome==='accepted'){hide()}
-      else{manualInstructions()}
-    }catch(err){manualInstructions()}
-  });
-  if(!isStandalone()){
-    if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',show,{once:true});
-    else show();
-  }
-})();
-</script>
 <!-- BEGIN isolated Income + Healthcare modules; Rolling algorithms unchanged -->
 <style>
 #flex-income-card .fin-line,#flex-health-card .fin-line{display:flex;justify-content:space-between;gap:12px;align-items:baseline;padding:5px 0}
 .fin-cols{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:12px 0}
 .fin-tile{background:#eff6fb;border-radius:12px;padding:12px;min-width:0}.fin-tile small{display:block;color:#607789;font-size:12px;line-height:1.45}.fin-tile strong{display:block;color:#173955;font-size:clamp(18px,4.8vw,24px);line-height:1.45;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
-.fin-inputs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:12px 0}.fin-inputs>*{min-width:0}.fin-inputs input{width:100%;box-sizing:border-box;font-size:16px;min-width:0}
+.fin-inputs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:12px 0}.fin-inputs>*{min-width:0}.fin-inputs input{width:100%;max-width:100%;box-sizing:border-box;font-size:16px;min-width:0;display:block}.fin-date-full,.fin-date-row,.fin-date-field{width:100%;max-width:100%;min-width:0}.fin-date-full{margin:12px 0}.fin-date-row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:12px 0}.fin-date-row>div,.fin-date-field{min-width:0;overflow:hidden}.fin-date-full input[type=date],.fin-date-row input[type=date]{display:block;width:100%;max-width:100%;min-width:0;box-sizing:border-box;-webkit-appearance:none;appearance:none;font-size:16px;line-height:1.25;padding:12px;border:1px solid #c8d9e4;border-radius:9px;background:white;color:#17324a;min-height:48px}.fin-date-full input[type=date]::-webkit-calendar-picker-indicator,.fin-date-row input[type=date]::-webkit-calendar-picker-indicator{opacity:.9;flex:0 0 auto}.fin-date-full input[type=date]::-webkit-date-and-time-value,.fin-date-row input[type=date]::-webkit-date-and-time-value{min-width:0;text-align:left}.fin-date-full input[type=date]::-webkit-datetime-edit,.fin-date-row input[type=date]::-webkit-datetime-edit{min-width:0;padding:0;overflow:hidden}@media(max-width:430px){.fin-date-row{grid-template-columns:1fr}}
 .fin-actions{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}.fin-actions button{flex:1;min-width:140px}
 .fin-review-row{border:1px solid #d7e6ee;border-radius:12px;padding:11px;margin:10px 0;background:white}.fin-review-row .fin-inputs{margin:5px 0}
 .fin-review-row label{display:block;font-size:12px;color:#48647a;margin:5px 0}.fin-review-row input{width:100%;max-width:100%;box-sizing:border-box;font-size:16px}
+/* iPhone OCR earnings review: iOS native date/time controls can exceed a half-width grid cell.
+   Each date/time field gets a dedicated full-width row; monetary fields stay two-column.
+   This CSS is scoped to the income OCR review and never changes Rolling calculations. */
+.fin-ocr-diagnostics{margin:9px 0}.fin-ocr-diagnostics summary{cursor:pointer;font-size:13px;font-weight:700;color:#154460}#fin-income-review-audit,#fin-income-ocr-warnings{white-space:pre-line;overflow-wrap:anywhere;line-height:1.6;margin:8px 0;padding:10px;background:#f3f8fb;border-radius:10px} .fin-review-row,.fin-review-row .fin-inputs,.fin-review-row .fin-inputs>div{min-width:0;max-width:100%}
+.fin-review-row .fin-inputs input[type="date"],.fin-review-row .fin-inputs input[type="time"]{display:block;width:100%;max-width:100%;min-width:0;box-sizing:border-box;font-size:16px;line-height:1.3;min-height:44px;-webkit-appearance:none;appearance:none}
+.fin-review-row .fin-inputs input[type="date"]::-webkit-date-and-time-value,.fin-review-row .fin-inputs input[type="time"]::-webkit-date-and-time-value{min-width:0;text-align:left}
+.fin-review-row .fin-inputs input[type="date"]::-webkit-datetime-edit,.fin-review-row .fin-inputs input[type="time"]::-webkit-datetime-edit{min-width:0;padding:0}
+@media(max-width:600px){
+ .fin-review-trip .fin-inputs>div:nth-child(-n+3),.fin-review-special .fin-inputs>div:first-child{grid-column:1/-1}
+ .fin-review-row .fin-inputs{gap:10px}
+}
+
 .fin-status{font-size:12px;color:#557083;line-height:1.6}.fin-good{color:#008264!important}.fin-bad{color:#bb342a!important}.fin-strong{font-weight:800;font-variant-numeric:tabular-nums}
 .fin-goal{border:1px solid #d6e6ed;border-radius:12px;padding:12px;min-width:0;background:#fbfdff}.fin-goal strong{font-size:clamp(19px,5vw,24px);white-space:nowrap}.fin-goal .fin-label{font-size:12px;color:#557083}
 .fin-mini{font-size:12px;color:#58758a}.fin-review-count{font-weight:750;padding:8px 0}
+/* Optional Income-only data management. Never touches completed hours or Healthcare stores. */
+.fin-delete-tools{margin-top:12px}.fin-delete-tools>summary{font-size:14px!important;font-weight:700!important}
+.fin-delete-note{font-size:12px;color:#64798b;line-height:1.55;margin:10px 0}
+.fin-history-day{padding:9px 0;border-bottom:1px solid #e0eaf1}.fin-history-day:last-child{border-bottom:0}
+.fin-history-manage{margin-top:6px}.fin-history-manage>summary{font-size:12px!important;color:#456b82;font-weight:650!important;cursor:pointer}
+.fin-delete-entry{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:7px 0;border-bottom:1px dashed #dde8ef;font-size:12px}
+.fin-delete-entry>span{min-width:0;overflow-wrap:anywhere}.fin-delete-entry button{font-size:12px;padding:7px 12px;flex:none}
+.fin-delete-day{margin:10px 0 4px;font-size:12px;padding:8px 12px}
+#fin-income-delete-status{min-height:1em;margin-top:8px;overflow-wrap:anywhere}
+#fin-income-undo[hidden]{display:none!important}
+
 #flex-income-card details>summary,#flex-health-card details>summary{cursor:pointer;font-weight:750;font-size:20px;line-height:1.4}
 #flex-income-card details>summary::marker,#flex-health-card details>summary::marker{color:#607789}
 #fin-income-review[hidden],#fin-manual-fields[hidden]{display:none!important}
 @media(max-width:370px){.fin-cols{gap:7px}.fin-tile{padding:9px}.fin-goal{padding:9px}.fin-goal strong{font-size:19px}}
+
+.fin-ref-row{background:#f6fafc;border:1px solid #dce8ef;border-radius:12px;padding:12px;margin:10px 0;min-width:0;overflow:hidden}.fin-ref-head{font-weight:700;font-size:13px}.fin-ref-row label{min-width:0}.fin-ocr-source{background:#fff;border:1px solid #d7e6ee;border-radius:10px;padding:9px;margin:9px 0}.fin-ocr-image{display:block;width:100%;height:auto;max-height:400px;object-fit:contain;margin:8px auto;border-radius:8px}.fin-ocr-raw{font-size:11px;white-space:pre-wrap;overflow-wrap:anywhere;max-height:220px;overflow:auto;background:#f3f7f9;border-radius:8px;padding:9px}.fin-audit-check .fin-inputs>*{min-width:0}.fin-audit-check input{max-width:100%;min-width:0}
+/* Compact income review: leave Rolling and Healthcare CSS untouched. */
+#fin-income-reference-wrap,#fin-income-review-audit,.fin-ocr-diagnostics{display:none!important}
+.fin-day-breakdown{display:grid;gap:5px;margin-top:7px}
+.fin-day-breakdown .fin-line{padding:0!important;font-size:12px}
+.fin-day-breakdown b{font-size:14px}.fin-income-pending{color:#a06916!important}
+.fin-simple-day{padding:10px;border:1px solid #d9e7ef;border-radius:11px;margin:8px 0;background:#f8fbfd}
+.fin-simple-day>div:first-child{display:flex;justify-content:space-between;gap:6px;font-weight:750;font-size:13px}
+.fin-simple-day .fin-mini{line-height:1.6}
+#flex-income-card .fin-review-row>summary{font-size:13px!important;cursor:pointer;font-weight:700;line-height:1.55;overflow-wrap:anywhere}
+.fin-review-row.fin-pending{border-color:#edcf96;background:#fffaf1}
+.fin-review-row.fin-pending>summary{color:#835712}
+.fin-review-row>summary+.fin-inputs{margin-top:12px}
+.fin-status-select{display:block;max-width:100%;width:100%;font-size:16px}
 </style>
 <section class="card" id="flex-income-card"><details><summary>Thu nhập · Ngày / Tuần / Tháng / $ mỗi giờ</summary>
-<p class="note">Chỉ upload Earnings sau khi Base + Tips đã đầy đủ. Ảnh có <b>Tips pending</b> sẽ bị bỏ qua. Thu nhập ghi về <b>ngày chạy</b>, không phải ngày upload; chức năng này không sửa giờ Rolling.</p>
+<p class="note">Thu nhập gồm <b>Base + Tips, Earnings Adjustment, Additional Tips và Healthcare Subsidy đã trả</b>. Không cộng Instant Cash Out hay Payment sent. Ảnh <b>Tips pending</b> được lưu thành tiền tạm tính, không cộng vào thu nhập đã chốt. Không thay đổi giờ Rolling.</p>
 <div class="fin-cols">
-<div class="fin-tile"><small>Tiền ngày đang xem</small><strong id="fin-income-day">—</strong><div class="fin-mini" id="fin-income-day-split">Base / Tips: —</div></div>
+<div class="fin-tile"><small>Tiền ngày đang xem</small><strong id="fin-income-day">—</strong><div id="fin-income-day-breakdown" class="fin-day-breakdown"><div class="fin-line"><span>Đã chốt</span><b id="fin-day-paid">$0.00</b></div><div class="fin-line"><span>Chờ Tips</span><b id="fin-day-pending" class="fin-income-pending">$0.00</b></div><div class="fin-line"><span>Tổng tạm tính</span><b id="fin-day-estimate">$0.00</b></div></div><div class="fin-mini" id="fin-income-day-split">Base / Tips: —</div></div>
 <div class="fin-tile"><small>Tiền tuần (T2–CN)</small><strong id="fin-income-week">—</strong><div class="fin-mini" id="fin-income-week-split">Base / Tips: —</div></div>
 <div class="fin-tile"><small>Tiền tháng hiện tại</small><strong id="fin-income-month">—</strong></div>
-<div class="fin-tile"><small>Base / Tips (tháng)</small><strong id="fin-income-split">—</strong></div>
-<div class="fin-tile"><small>Trung bình / giờ (ngày đã chốt tiền)</small><strong id="fin-income-rate">—</strong></div>
+<div class="fin-tile"><small>Base / Tips (tháng)</small><strong id="fin-income-split">—</strong></div><div class="fin-tile"><small>Adjustment / Tips thêm / Healthcare (tháng)</small><strong id="fin-income-specials">—</strong></div>
+<div class="fin-tile"><small>Trung bình / giờ (gồm các khoản cộng thêm)</small><strong id="fin-income-rate">—</strong></div>
 <div class="fin-tile"><small>Ngày đã chạy chưa chốt tiền (trong tuần)</small><strong id="fin-income-unfinished">—</strong></div>
 </div>
-<div class="fin-actions"><button id="fin-income-upload" type="button">📷 Upload Earnings đủ tips</button><button id="fin-income-add" class="secondary" type="button">＋ Nhập tiền thủ công</button></div>
+<details class="flex-panel" id="fin-income-integrity-wrap" hidden><summary id="fin-income-integrity-title">⚠️ Cần kiểm tra chuyến đã lưu</summary><div class="fin-status" id="fin-income-integrity-body"></div></details>
+<div class="fin-actions"><button id="fin-income-upload" type="button">📷 Upload Earnings</button><button id="fin-income-add" class="secondary" type="button">＋ Nhập chuyến</button><button id="fin-income-add-special" class="secondary" type="button">＋ Nhập khoản cộng thêm</button></div>
 <div id="fin-income-source" hidden class="flex-panel" style="margin:10px 0">
 <b>Chọn nơi lấy ảnh Earnings</b>
 <div class="fin-actions"><button type="button" class="secondary" id="fin-income-source-photos">🖼️ Ảnh / Google Photos</button><button type="button" id="fin-income-source-files">📁 My Files / Screenshots</button></div>
@@ -926,25 +870,42 @@ renderExtra();
 <input type="file" id="fin-income-images" accept="image/*" multiple hidden>
 <div class="fin-status" id="fin-income-status">Chưa chọn ảnh. Có thể upload nhiều ảnh của các ngày đã qua trong cùng một lần.</div>
 <div id="fin-income-review" hidden>
-<h3 style="margin:12px 0">Kiểm tra tiền trước khi lưu</h3>
-<div class="fin-status">Kiểm tra ngày, giờ và số tiền từng chuyến. Bỏ ảnh thiếu thông tin hoặc đang Tips pending. Nếu OCR bỏ sót chuyến, thêm thủ công.</div>
+<h3 style="margin:12px 0">Xem trước Earnings</h3>
+<div class="fin-status">Các ảnh trùng được kiểm tra tự động. Chuyến <b>Chờ Tips</b> lưu tạm và sẽ được thay bằng tiền <b>Paid</b> khi bạn upload ảnh ngày hôm sau. Chạm một dòng để chỉnh; mở ảnh gốc nếu cần.</div><div id="fin-income-simple-days"></div>
 <div id="fin-income-review-list"></div>
-<div class="fin-actions"><button type="button" id="fin-income-more" class="secondary">＋ Thêm ảnh</button><button type="button" id="fin-income-more-manual" class="secondary">＋ Thêm chuyến</button></div>
+<div class="fin-actions"><button type="button" id="fin-income-more" class="secondary">＋ Thêm ảnh</button><button type="button" id="fin-income-more-manual" class="secondary">＋ Thêm chuyến</button><button type="button" id="fin-income-more-special" class="secondary">＋ Thêm khoản khác</button></div>
 <div id="fin-income-review-summary" class="fin-review-count"></div>
-<label style="display:flex;gap:10px;align-items:flex-start;font-size:13px;line-height:1.55"><input type="checkbox" id="fin-income-confirm" style="width:20px;height:20px;flex:none;margin-top:2px"> Tôi xác nhận Base + Tips đã hoàn tất và các chuyến của từng ngày liệt kê đã đầy đủ.</label>
-<div class="fin-actions"><button id="fin-income-save" type="button">Lưu thu nhập cuối cùng</button><button id="fin-income-cancel" type="button" class="secondary">Đóng</button></div>
+<details class="flex-panel fin-audit-check" id="fin-income-reference-wrap" open>
+<summary>🔎 Đối chiếu tổng tiền và số chuyến theo ngày trước khi lưu</summary>
+<p class="fin-status">Nhìn ảnh Amazon rồi điền <b>số chuyến Paid</b> và <b>tổng tiền của ngày</b> (gồm khoản Adjustment / Healthcare nếu có). Có thể bỏ trống để lưu tạm. Chỉ đánh dấu đủ tiền khi các số đối chiếu khớp; OCR không tự chứng minh đã đọc hết ảnh.</p>
+<div id="fin-income-reference-list"></div><div id="fin-income-month-reference-list"></div>
+<div id="fin-income-reference-status" class="fin-status" aria-live="polite"></div>
+</details>
+<details class="flex-panel" id="fin-income-images-preview" hidden><summary>🖼️ Xem lại ảnh đã upload và phần OCR đọc được</summary><div id="fin-income-image-list"></div></details>
+<div id="fin-income-review-audit" class="fin-status" aria-live="polite"></div>
+<details class="fin-ocr-diagnostics"><summary>Kiểm tra OCR từng ảnh / cảnh báo</summary><div id="fin-income-ocr-warnings" class="fin-status"></div></details>
+<label style="display:flex;gap:10px;align-items:flex-start;font-size:13px;line-height:1.55"><input type="checkbox" id="fin-income-confirm" style="width:20px;height:20px;flex:none;margin-top:2px"> Tôi đã xem danh sách giao dịch nhận diện; khoản Chờ Tips chỉ tính tạm.</label>
+<div class="fin-actions"><button id="fin-income-save" type="button">Lưu thu nhập đã kiểm tra</button><button id="fin-income-cancel" type="button" class="secondary">Đóng</button></div>
 </div>
 <div class="flex-panel" id="fin-income-retention"><div class="fin-line"><b id="fin-income-current-month">Tháng hiện tại</b><span id="fin-income-retention-label">—</span></div><div class="fin-status" id="fin-income-retention-status">Giữ tháng trước thêm 7 ngày; sau đó chỉ dọn khi đủ Tips.</div></div>
 <details class="flex-panel" id="fin-income-prior-wrap" hidden><summary id="fin-income-prior-title">Tháng trước · Tạm giữ</summary><div class="fin-status" id="fin-income-prior-status"></div><div id="fin-income-prior"></div></details>
-<details class="flex-panel"><summary>Chi tiết tiền đã lưu</summary><div id="fin-income-history"></div></details>
+<p class="fin-status">Đối với khoản không có giờ chạy, ứng dụng chống trùng bằng loại + ngày + số tiền; nếu Amazon có hai khoản giống hệt nhau, hãy kiểm tra lại vì không có mã giao dịch để phân biệt tuyệt đối.</p>
+<details class="flex-panel fin-delete-tools" id="fin-income-delete-tools"><summary>Quản lý / Xóa dữ liệu Thu nhập</summary>
+<p class="fin-delete-note">Có thể xóa toàn bộ tiền để upload lại ảnh. Chỉ xóa dữ liệu <b>Thu nhập</b>, không ảnh hưởng <b>giờ Rolling</b> hoặc <b>Healthcare Subsidy</b>. Nên xuất Backup JSON trước khi xóa.</p>
+<div class="fin-actions"><button id="fin-income-delete-selected" class="secondary" type="button">Xóa tiền ngày đang xem</button><button id="fin-income-delete-all" class="danger" type="button">🗑️ Xóa toàn bộ thu nhập đã lưu</button><button id="fin-income-undo" class="secondary" type="button" hidden>↶ Hoàn tác lần xóa vừa rồi</button></div>
+<div class="fin-status" id="fin-income-delete-status" role="status" aria-live="polite"></div>
+</details>
+<details class="flex-panel"><summary>Chi tiết tiền đã lưu</summary>
+<p class="fin-status">Nếu một ngày OCR thiếu chuyến, hãy xóa <b>chỉ ngày đó</b> rồi upload lại; dữ liệu các ngày khác được giữ. Bạn cũng có thể xóa đúng một chuyến hoặc xóa toàn bộ thu nhập.</p>
+<div id="fin-income-history"></div></details>
 </details></section>
 <section class="card" id="flex-health-card"><details><summary>Healthcare Subsidy · Buffer / EST</summary><p class="note" id="fin-h-quarter-label">Chỉ theo dõi quý hiện tại; quý trước giữ thêm 7 ngày.</p><div id="fin-h-old-quarter" class="fin-status" hidden></div>
 <div class="fin-cols">
 <div class="fin-tile"><small>Amazon xác nhận</small><strong id="fin-h-confirmed">—</strong><div class="fin-mini" id="fin-h-asof"></div></div>
 <div class="fin-tile"><small>Ước tính hiện tại</small><strong id="fin-h-estimated">—</strong><div class="fin-mini">Giờ Amazon + Completed chưa cập nhật</div></div>
 </div>
-<div class="flex-panel"><b>Cập nhật giờ Amazon</b><div class="fin-inputs"><div><label for="fin-h-hours">Tổng giờ (h)</label><input id="fin-h-hours" type="number" min="0" max="3000" step="1" placeholder="69"></div><div><label for="fin-h-minutes">Phút (0–59)</label><input id="fin-h-minutes" type="number" min="0" max="59" step="1" placeholder="58"></div></div><label for="fin-h-date">Amazon ghi nhận đến ngày (As of)</label><input id="fin-h-date" type="date" style="width:100%;box-sizing:border-box;font-size:16px"><div class="fin-actions"><button id="fin-h-save" type="button">Lưu giờ Amazon</button></div><div class="fin-status" id="fin-h-status">Chỉ cập nhật khi Amazon thay đổi số giờ. Không làm thay đổi Rolling.</div></div>
-<div class="flex-panel"><b>Dự định nghỉ · From / To</b><div class="fin-inputs"><div><label for="fin-h-from">From · Từ ngày</label><input id="fin-h-from" type="date"></div><div><label for="fin-h-to">To · Đến ngày</label><input id="fin-h-to" type="date"></div></div><div class="fin-actions"><button id="fin-h-rest-save" type="button">Lưu ngày nghỉ</button><button id="fin-h-rest-clear" class="secondary" type="button">Xóa lịch nghỉ</button></div><div class="fin-status" id="fin-h-rest-status">Lịch nghỉ chỉ dùng để dự báo, không đặt ngày nghỉ vào Rolling.</div></div>
+<div class="flex-panel"><b>Cập nhật giờ Amazon</b><div class="fin-inputs"><div><label for="fin-h-hours">Tổng giờ (h)</label><input id="fin-h-hours" type="number" min="0" max="3000" step="1" placeholder="69"></div><div><label for="fin-h-minutes">Phút (0–59)</label><input id="fin-h-minutes" type="number" min="0" max="59" step="1" placeholder="58"></div></div><div class="fin-date-full"><label for="fin-h-date">Amazon ghi nhận đến ngày (As of)</label><input id="fin-h-date" type="date"></div><div class="fin-actions"><button id="fin-h-save" type="button">Lưu giờ Amazon</button></div><div class="fin-status" id="fin-h-status">Chỉ cập nhật khi Amazon thay đổi số giờ. Không làm thay đổi Rolling.</div></div>
+<div class="flex-panel"><b>Dự định nghỉ · From / To</b><div class="fin-date-row"><div class="fin-date-field"><label for="fin-h-from">From · Từ ngày</label><input id="fin-h-from" type="date"></div><div class="fin-date-field"><label for="fin-h-to">To · Đến ngày</label><input id="fin-h-to" type="date"></div></div><div class="fin-actions"><button id="fin-h-rest-save" type="button">Lưu ngày nghỉ</button><button id="fin-h-rest-clear" class="secondary" type="button">Xóa lịch nghỉ</button></div><div class="fin-status" id="fin-h-rest-status">Lịch nghỉ chỉ dùng để dự báo, không đặt ngày nghỉ vào Rolling.</div></div>
 <h3 style="margin:12px 0 8px">Buffer & Ngày dự kiến đạt mốc</h3>
 <div class="fin-cols"><div class="fin-goal" id="fin-h-goal197"></div><div class="fin-goal" id="fin-h-goal328"></div></div>
 <details class="flex-panel"><summary>ⓘ Lưu ý</summary><p class="fin-status">Buffer và EST chỉ mang tính ước tính theo tiến độ hiện tại. Giờ Completed trong app có thể khác giờ đủ điều kiện Healthcare Subsidy của Amazon. Dự báo tính theo ngày lịch, loại các ngày nghỉ dự kiến; không đảm bảo sẽ nhận trợ cấp. Proof of coverage phải đáp ứng điều kiện của Amazon.</p></details>
@@ -967,20 +928,24 @@ const fmtMoney=c=>'$'+(Math.round(c)/100).toLocaleString('en-US',{minimumFractio
 const prettyDate=s=>s?`${s.slice(8)}/${s.slice(5,7)}/${s.slice(0,4)}`:'—';
 const rolling=()=>read(ROLLINGKEY,{});
 const validMoney=r=>r&&parseDate(r.date)&&/^([01]\d|2[0-3]):[0-5]\d$/.test(r.start||'')&&/^([01]\d|2[0-3]):[0-5]\d$/.test(r.end||'')&&r.end>r.start&&Number.isSafeInteger(r.cents)&&r.cents>=0&&r.cents<=100000000;
-const incomeLoad=()=>{const o=read(MONEYKEY,{version:1,records:[],finalDays:[]});return o&&Array.isArray(o.records)&&Array.isArray(o.finalDays)?o:{version:1,records:[],finalDays:[]}};
+const incomeLoad=()=>{const o=read(MONEYKEY,{version:3,records:[],finalDays:[],specials:[],pendingRecords:[]});return o&&Array.isArray(o.records)&&Array.isArray(o.finalDays)?{...o,specials:Array.isArray(o.specials)?o.specials:[],pendingRecords:Array.isArray(o.pendingRecords)?o.pendingRecords:[]}: {version:3,records:[],finalDays:[],specials:[],pendingRecords:[]}};
+const specialLabels={adjustment:'Earnings Adjustment',extra_tips:'Additional Tips',health_subsidy:'Healthcare Subsidy'};
+const specialKey=r=>r.date+'|'+r.specialType+'|'+r.cents;
+const validSpecial=r=>!!(r&&parseDate(r.date)&&Object.hasOwn(specialLabels,r.specialType)&&Number.isSafeInteger(r.cents)&&r.cents>0&&r.cents<=100000000);
+const allIncomeRecords=data=>[...data.records,...data.specials];
 const ym=d=>d.slice(0,7);
 const monthLabel=k=>k&&/^\d{4}-\d{2}$/.test(k)?k.slice(5)+'/'+k.slice(0,4):'—';
 const monthAfter=k=>{const d=parseDate(k+'-01');if(!d)return null;d.setMonth(d.getMonth()+1);return localISO(d).slice(0,7)};
 const monthPurgeDate=k=>{const next=monthAfter(k);return next?next+'-08':null};
-const incomeMonths=data=>[...new Set([...data.records.map(r=>ym(r.date)),...data.finalDays.map(ym)])].filter(m=>/^\d{4}-(0[1-9]|1[0-2])$/.test(m)).sort();
-const incompleteMonth=(k,data,entries)=>Object.entries(entries).filter(([date,v])=>ym(date)===k&&Number(v?.a)>0&&!data.finalDays.includes(date)).map(([date])=>date).sort();
+const incomeMonths=data=>[...new Set([...allIncomeRecords(data),...data.pendingRecords].map(r=>ym(r.date)).concat(data.finalDays.map(ym)))].filter(m=>/^\d{4}-(0[1-9]|1[0-2])$/.test(m)).sort();
+const incompleteMonth=(k,data,entries)=>[...new Set([...Object.entries(entries).filter(([date,v])=>ym(date)===k&&Number(v?.a)>0&&!data.finalDays.includes(date)).map(([date])=>date),...data.pendingRecords.filter(r=>ym(r.date)===k).map(r=>r.date)])].sort();
 function pruneIncome(){const data=incomeLoad(),current=ym(today()),entries=rolling();const months=incomeMonths(data);let expired=[];
  for(const m of months){if(m>=current||today()<(monthPurgeDate(m)||'9999-12-31'))continue;
   // Amazon does not expose a final-Tips flag: completed workdays not confirmed via Earnings block deletion.
   if(incompleteMonth(m,data,entries).length===0)expired.push(m);
  }
- if(expired.length){const old=data.records.length+data.finalDays.length;data.records=data.records.filter(r=>!expired.includes(ym(r.date)));data.finalDays=data.finalDays.filter(d=>!expired.includes(ym(d)));
-  if(old!==data.records.length+data.finalDays.length)localStorage.setItem(MONEYKEY,JSON.stringify(data));
+ if(expired.length){const old=data.records.length+data.finalDays.length+data.specials.length+data.pendingRecords.length;data.records=data.records.filter(r=>!expired.includes(ym(r.date)));data.specials=data.specials.filter(r=>!expired.includes(ym(r.date)));data.pendingRecords=data.pendingRecords.filter(r=>!expired.includes(ym(r.date)));data.finalDays=data.finalDays.filter(d=>!expired.includes(ym(d)));
+  if(old!==data.records.length+data.finalDays.length+data.specials.length+data.pendingRecords.length)localStorage.setItem(MONEYKEY,JSON.stringify(data));
  }
  return data;}
 
@@ -1004,25 +969,172 @@ function pruneExpired(){pruneIncome();pruneHealthcare();}
 const totalDays=(entries,from,to)=>Object.entries(entries).reduce((sum,[d,v])=>sum+(d>=from&&d<=to&&v&&Number.isSafeInteger(Number(v.a))&&Number(v.a)>0?Number(v.a):0),0);
 const monday=s=>{let d=parseDate(s)||new Date();d.setDate(d.getDate()-(d.getDay()+6)%7);return localISO(d)};
 const duration=(start,end)=>{const [h,m]=start.split(':').map(Number),[h2,m2]=end.split(':').map(Number);return h2*60+m2-h*60-m};
-const recordKey=r=>r.date+'|'+r.start+'|'+r.end;
+const recordKey=r=>r.kind==='special'?'special|'+specialKey(r):r.date+'|'+r.start+'|'+r.end;
 const validIncome=r=>validMoney(r)&&['baseCents','tipsCents'].every(k=>r[k]===null||r[k]===undefined||(Number.isSafeInteger(r[k])&&r[k]>=0&&r[k]<=100000000))&&(!Number.isSafeInteger(r.baseCents)||!Number.isSafeInteger(r.tipsCents)||r.baseCents+r.tipsCents===r.cents);
-let review=[],busy=false,appendImages=false,blockedPending=0,healthInputsDirty=false,vacInputsDirty=false;
+const validReview=r=>r.kind==='special'?validSpecial(r):validIncome(r);
+
+// Keep existing paid deliveries; compare the complete saved+new union to the
+// completed duration in Rolling without modifying the Rolling source.
+// This comparison cannot guarantee OCR completeness, but can catch omissions.
+function incomeReviewCompleteness(rows,old=incomeLoad(),entries=rolling()){
+ const newDeliveries=rows.filter(r=>r.kind!=='special'&&validIncome(r)), dates=[...new Set(newDeliveries.map(r=>r.date))];
+ const merged=new Map(old.records.map(r=>[recordKey(r),r]));
+ for(const r of newDeliveries)merged.set(recordKey(r),r);
+ return dates.map(date=>{
+  const expected=Number(entries[date]?.a)||0;
+  const paid=[...merged.values()].filter(r=>r.date===date&&validMoney(r));
+  const minutes=paid.reduce((n,r)=>n+duration(r.start,r.end),0);
+  const missing=Math.max(0,expected-minutes),incomplete=expected>0&&missing>12;
+  return {date,expected,minutes,missing,count:paid.length,incomplete};
+ });
+}
+
+let review=[],busy=false,appendImages=false,blockedPending=0,dupReview=0,healthInputsDirty=false,vacInputsDirty=false;
+let incomeOCRIssues=[],incomePendingDates=new Set(),incomePendingKeys=new Set(),incomeOCRDayNotes=[];
+// In-session review-only source evidence and user-supplied per-day reconciliation.
+// Do not save pictures to localStorage/JSON.
+let incomeEvidence=[],incomeTargets={},incomeMonthTargets={},incomeProblemDates=new Set(),incomeGlobalProblem=false;
+function clearIncomeEvidence(){for(const it of incomeEvidence){if(it.url)URL.revokeObjectURL(it.url)}incomeEvidence=[];incomeTargets={};incomeMonthTargets={};incomeProblemDates=new Set();incomeGlobalProblem=false;const node=$('fin-income-image-list');if(node)node.replaceChildren();$('fin-income-images-preview').hidden=true}
+function showIncomeEvidence(){const root=$('fin-income-image-list');root.replaceChildren();$('fin-income-images-preview').hidden=!incomeEvidence.length;
+ for(const it of incomeEvidence){const container=document.createElement('details');container.className='fin-ocr-source';const title=document.createElement('summary');title.textContent=it.name+': '+(it.note||'đang xử lý');container.append(title);
+  if(it.url){const pic=document.createElement('img');pic.src=it.url;pic.alt='Ảnh gốc '+it.name;pic.className='fin-ocr-image';pic.loading='lazy';container.append(pic)}
+  if(it.text){const pre=document.createElement('pre');pre.className='fin-ocr-raw';pre.textContent=it.text.slice(0,9000);container.append(pre)}root.append(container)}
+}
+function storedIncomeDay(date,data){const rows=[...data.records.filter(r=>r.date===date),...data.specials.filter(r=>r.date===date)];return {count:data.records.filter(r=>r.date===date).length,cents:rows.reduce((n,r)=>n+r.cents,0)}}
+function mergedIncomeDay(date,reviewRows,data){const deliveries=new Map(data.records.filter(r=>r.date===date).map(r=>[recordKey(r),r]));const specials=new Map(data.specials.filter(r=>r.date===date).map(r=>[specialKey(r),r]));
+ for(const r of reviewRows.filter(r=>r.date===date&&validReview(r))){if(r.kind==='special')specials.set(specialKey(r),r);else deliveries.set(recordKey(r),r)}
+ return {count:deliveries.size,cents:[...deliveries.values(),...specials.values()].reduce((n,r)=>n+r.cents,0)}
+}
+function monthReconciledCents(month,reviewRows,old=incomeLoad()){
+ const deliveries=new Map(old.records.filter(r=>ym(r.date)===month).map(r=>[recordKey(r),r]));const specials=new Map(old.specials.filter(r=>ym(r.date)===month).map(r=>[specialKey(r),r]));
+ for(const r of reviewRows.filter(r=>validReview(r)&&ym(r.date)===month)){if(r.kind==='special')specials.set(specialKey(r),r);else deliveries.set(recordKey(r),r)}
+ return [...deliveries.values(),...specials.values()].reduce((n,r)=>n+r.cents,0)
+}
+function monthReferenceProblems(reviewRows,existing=incomeLoad()){
+ return Object.entries(incomeMonthTargets).filter(([month,cents])=>Number.isSafeInteger(cents)&&reviewRows.some(r=>r.date&&ym(r.date)===month))
+  .filter(([month,cents])=>monthReconciledCents(month,reviewRows,existing)!==cents)
+  .map(([month,cents])=>({month,expected:cents,observed:monthReconciledCents(month,reviewRows,existing)}));
+}
+function referenceProblems(reviewRows,existing=incomeLoad()){const touched=[...new Set(reviewRows.filter(validReview).map(r=>r.date))],results=[];
+ for(const date of touched){const target=incomeTargets[date]||{},observed=mergedIncomeDay(date,reviewRows,existing);const problems=[];
+  if(target.count!==null&&target.count!==undefined&&target.count!==''&&observed.count!==Number(target.count))problems.push('số chuyến '+observed.count+' / '+target.count);
+  if(Number.isSafeInteger(target.cents)&&observed.cents!==target.cents)problems.push('tiền '+fmtMoney(observed.cents)+' / '+fmtMoney(target.cents));
+  if(incomeProblemDates.has(date))problems.push('ảnh có dòng OCR chưa đọc được');
+  if(incomePendingDates.has(date))problems.push('Tips pending');
+  if(problems.length)results.push({date,problems,observed});
+ }return results;
+}
+function renderIncomeReferences(){const root=$('fin-income-reference-list');root.replaceChildren();const data=incomeLoad(),dates=[...new Set(review.filter(validReview).map(r=>r.date))].sort();
+ for(const date of dates){const tally=mergedIncomeDay(date,review,data);const old=storedIncomeDay(date,data),row=document.createElement('div');row.className='fin-ref-row';
+  const headline=document.createElement('div');headline.className='fin-ref-head';headline.textContent=prettyDate(date)+' · sau gộp: '+tally.count+' chuyến / '+fmtMoney(tally.cents)+(old.count?' · đã lưu '+old.count+' chuyến':'');row.append(headline);
+  const grid=document.createElement('div');grid.className='fin-inputs';for(const [label,key,step] of [['Số chuyến Paid trên Amazon','count','1'],['Tổng tiền Amazon ($)','cents','0.01']]){
+   const wrap=document.createElement('div'),lbl=document.createElement('label'),field=document.createElement('input');lbl.textContent=label;field.type='number';field.min='0';field.step=step;field.placeholder=key==='count'?'Ví dụ: 4':'Ví dụ: 373.00';const value=incomeTargets[date]?.[key];field.value=value===null||value===undefined?'':key==='cents'?(value/100).toFixed(2):String(value);
+   field.addEventListener('input',()=>{const inp=field.value.trim();const t=incomeTargets[date]??={};if(!inp)t[key]=null;else if(key==='count')t[key]=Number.isSafeInteger(Number(inp))&&Number(inp)>=0?Number(inp):null;else t[key]=Number.isFinite(Number(inp))&&Number(inp)>=0?Math.round(Number(inp)*100):null;updateIncomeReferenceStatus()});lbl.append(field);wrap.append(lbl);grid.append(wrap)
+  }row.append(grid);root.append(row)
+ }
+ const months=[...new Set(dates.map(ym))].sort(),monthRoot=$('fin-income-month-reference-list');monthRoot.replaceChildren();
+ for(const month of months){const row=document.createElement('div');row.className='fin-ref-row';const label=document.createElement('label');
+  const current=monthReconciledCents(month,review,data);label.textContent='Tổng thu nhập '+monthLabel(month)+' trên Amazon (nếu đã có đủ ảnh) · sau gộp: '+fmtMoney(current);
+  const input=document.createElement('input');input.type='number';input.min='0';input.step='0.01';input.placeholder='Ví dụ: 5456.96';input.value=Number.isSafeInteger(incomeMonthTargets[month])?(incomeMonthTargets[month]/100).toFixed(2):'';
+  input.addEventListener('input',()=>{const v=input.value.trim();incomeMonthTargets[month]=v&&Number.isFinite(Number(v))&&Number(v)>=0?Math.round(Number(v)*100):null;updateIncomeReferenceStatus()});label.append(input);row.append(label);monthRoot.append(row)
+ }
+ updateIncomeReferenceStatus();
+}
+function updateIncomeReferenceStatus(){const problems=referenceProblems(review),months=monthReferenceProblems(review),checks=[...new Set(review.filter(validReview).map(r=>r.date))].filter(d=>{const a=incomeTargets[d];return a&&(a.count!==null&&a.count!==undefined||Number.isSafeInteger(a.cents))}).length;
+ $('fin-income-reference-status').textContent=(problems.length||months.length?'⚠️ KHÔNG KHỚP:\n'+problems.map(p=>prettyDate(p.date)+': '+p.problems.join(', ')).join('\n')+(months.length?'\n'+months.map(m=>'Tháng '+monthLabel(m.month)+': đã có '+fmtMoney(m.observed)+' / Amazon '+fmtMoney(m.expected)+' (chênh '+fmtMoney(Math.abs(m.expected-m.observed))+')').join('\n'):'')+'\nLưu tạm được nhưng ngày thiếu sẽ không được chốt.':'✓ Chưa có sai lệch ở các mốc đã nhập.')+' · '+checks+' ngày đã nhập mốc đối chiếu.';
+ $('fin-income-reference-status').style.whiteSpace='pre-line';$('fin-income-reference-status').style.color=problems.length||months.length?'#ad4430':'';
+}
+
+
+// Only this isolated MONEYKEY is ever changed by Income delete actions.
+// A single-step Undo lives in memory while this page is open (no stale data kept in storage).
+let incomeDeleteUndo=null;
+function resetIncomeDeleteUndo(){incomeDeleteUndo=null;$('fin-income-undo').hidden=true}
+function deleteSavedIncome(mode, date='', identity=''){
+ const data=incomeLoad(),beforeCount=data.records.length+data.specials.length+data.finalDays.length+data.pendingRecords.length;
+ let label='';
+ if(mode==='all'){
+  if(!beforeCount){$('fin-income-delete-status').textContent='Chưa có thu nhập nào để xóa.';return}
+  label='XÓA TOÀN BỘ '+data.records.length+' chuyến Paid, '+data.pendingRecords.length+' chuyến chờ Tips, '+data.specials.length+' khoản cộng thêm và '+data.finalDays.length+' ngày chốt tiền';
+ }else if(mode==='day'){
+  if(!parseDate(date))return;
+  if(!data.records.some(r=>r.date===date)&&!data.pendingRecords.some(r=>r.date===date)&&!data.specials.some(r=>r.date===date)&&!data.finalDays.includes(date))return;
+  label='XÓA TOÀN BỘ THU NHẬP ngày '+prettyDate(date)+' (chuyến, khoản cộng thêm và trạng thái chốt tiền)';
+ }else if(mode==='entry'){
+  const match=[...data.records,...data.pendingRecords,...data.specials].find(r=>(r.specialType?'s|'+specialKey(r):'d|'+recordKey(r))===identity);
+  if(!match)return;
+  label='XÓA '+(match.specialType?(specialLabels[match.specialType]||'khoản cộng thêm'):'chuyến '+match.start+'–'+match.end)+' '+prettyDate(match.date)+' · '+fmtMoney(match.cents);
+ }else return;
+ if(!confirm(label+'?\n\nChỉ xóa dữ liệu THU NHẬP, không thay đổi giờ Rolling hoặc giờ Healthcare. Hãy xuất Backup JSON trước nếu cần lưu lại.'))return;
+ incomeDeleteUndo=JSON.stringify(data);
+ if(mode==='all'){
+  data.records=[];data.pendingRecords=[];data.specials=[];data.finalDays=[];
+ }else if(mode==='day'){
+  data.records=data.records.filter(r=>r.date!==date);
+  data.pendingRecords=data.pendingRecords.filter(r=>r.date!==date);
+  data.specials=data.specials.filter(r=>r.date!==date);
+  data.finalDays=data.finalDays.filter(d=>d!==date);
+ }else{
+  const isSpecial=identity.startsWith('s|'),key=identity.slice(2);
+  if(isSpecial)data.specials=data.specials.filter(r=>specialKey(r)!==key);
+  else{
+   data.records=data.records.filter(r=>recordKey(r)!==key);
+   data.pendingRecords=data.pendingRecords.filter(r=>recordKey(r)!==key);
+   // The workday must be verified again after a paid delivery was removed.
+   data.finalDays=data.finalDays.filter(d=>d!==date);
+  }
+ }
+ localStorage.setItem(MONEYKEY,JSON.stringify(data));
+ // Discard any OCR draft, otherwise stale rows could be saved back accidentally.
+ review=[];blockedPending=0;dupReview=0;incomePendingDates=new Set();incomePendingKeys=new Set();incomeOCRIssues=[];incomeOCRDayNotes=[];clearIncomeEvidence();
+ $('fin-income-review').hidden=true;
+ $('fin-income-undo').hidden=false;
+ $('fin-income-delete-tools').open=true;
+ renderIncome();
+ $('fin-income-delete-status').textContent=(mode==='all'?'Đã xóa toàn bộ thu nhập.':mode==='day'?'Đã xóa thu nhập ngày '+prettyDate(date)+'.':'Đã xóa khoản đã chọn.')+' Có thể upload lại ảnh. Nhấn “Hoàn tác” nếu xóa nhầm (trước khi tải lại trang).';
+ $('fin-income-status').textContent='Dữ liệu giờ Rolling và Healthcare được giữ nguyên.';
+}
+$('fin-income-delete-all').onclick=()=>deleteSavedIncome('all');$('fin-income-delete-selected').onclick=()=>{const selected=parseDate($('day')?.value)?$('day').value:today();deleteSavedIncome('day',selected)};
+$('fin-income-undo').onclick=()=>{
+ if(!incomeDeleteUndo){$('fin-income-delete-status').textContent='Không còn bản xóa nào để hoàn tác.';return}
+ if(!confirm('Khôi phục lại dữ liệu Thu nhập ngay trước lần xóa gần nhất?'))return;
+ localStorage.setItem(MONEYKEY,incomeDeleteUndo);resetIncomeDeleteUndo();
+ renderIncome();$('fin-income-delete-status').textContent='Đã hoàn tác. Thu nhập trước khi xóa đã được khôi phục; Rolling và Healthcare không thay đổi.';
+};
+
 function renderIncome(){const data=incomeLoad(),selected=parseDate($('day')?.value)?$('day').value:today(),weekStart=monday(selected),weekEnd=nextDay(weekStart,6),entries=rolling(),current=ym(today());
- const sum=arr=>arr.reduce((n,r)=>n+r.cents,0),day=data.records.filter(r=>r.date===selected),week=data.records.filter(r=>r.date>=weekStart&&r.date<=weekEnd),month=data.records.filter(r=>ym(r.date)===current);
- const weekFin=data.finalDays.filter(d=>d>=weekStart&&d<=weekEnd),mins=weekFin.reduce((n,d)=>n+(Number(entries[d]?.a)||0),0);
- const missing=Object.keys(entries).filter(d=>d>=weekStart&&d<=weekEnd&&(Number(entries[d]?.a)||0)>0&&!data.finalDays.includes(d)).length;
- const split=arr=>{const b=arr.filter(r=>Number.isSafeInteger(r.baseCents)).reduce((a,r)=>a+r.baseCents,0),t=arr.filter(r=>Number.isSafeInteger(r.tipsCents)).reduce((a,r)=>a+r.tipsCents,0),partial=arr.some(r=>!Number.isSafeInteger(r.baseCents)||!Number.isSafeInteger(r.tipsCents));return !arr.length?'—':(fmtMoney(b)+' / '+fmtMoney(t))+(partial?' *':'')};
- $('fin-income-day').textContent=data.finalDays.includes(selected)?fmtMoney(sum(day)):'Chưa chốt';
+ const sum=arr=>arr.reduce((n,r)=>n+r.cents,0),all=allIncomeRecords(data),day=all.filter(r=>r.date===selected),week=all.filter(r=>r.date>=weekStart&&r.date<=weekEnd),month=all.filter(r=>ym(r.date)===current);
+ const weekFin=data.finalDays.filter(d=>d>=weekStart&&d<=weekEnd&&!data.pendingRecords.some(r=>r.date===d)),mins=weekFin.reduce((n,d)=>n+(Number(entries[d]?.a)||0),0);
+ const missing=Object.keys(entries).filter(d=>d>=weekStart&&d<=weekEnd&&(Number(entries[d]?.a)||0)>0&&(!data.finalDays.includes(d)||data.pendingRecords.some(r=>r.date===d))).length;
+ // Warn on already-finalized days too: re-uploading OCR must never leave a
+ // misleading "fully paid" label if the saved trips are shorter than Rolling.
+ const audit=Object.keys(entries).filter(d=>ym(d)===current&&(Number(entries[d]?.a)||0)>0&&data.finalDays.includes(d)).map(d=>{
+  const paid= data.records.filter(r=>r.date===d&&validMoney(r));
+  const recorded=paid.reduce((n,r)=>n+duration(r.start,r.end),0);
+  return {date:d,recorded,expected:Number(entries[d].a)||0,missing:(Number(entries[d].a)||0)-recorded,count:paid.length};
+ }).filter(x=>x.missing>12).sort((a,b)=>b.date.localeCompare(a.date));
+ $('fin-income-integrity-wrap').hidden=!audit.length;
+ if(audit.length){
+  $('fin-income-integrity-title').textContent='⚠️ '+audit.length+' ngày đã lưu có thể thiếu chuyến';
+  $('fin-income-integrity-body').textContent=audit.map(x=>prettyDate(x.date)+': '+x.count+' chuyến, giờ Earnings '+fmtMinutes(x.recorded)+' / Rolling '+fmtMinutes(x.expected)+' — lệch '+fmtMinutes(x.missing)+'. Kiểm tra OCR hoặc thêm chuyến còn thiếu.').join('\n');
+  $('fin-income-integrity-body').style.whiteSpace='pre-line';
+ }
+ const split=arr=>{const deliveries=arr.filter(r=>!r.specialType),b=deliveries.filter(r=>Number.isSafeInteger(r.baseCents)).reduce((a,r)=>a+r.baseCents,0),t=deliveries.filter(r=>Number.isSafeInteger(r.tipsCents)).reduce((a,r)=>a+r.tipsCents,0),partial=deliveries.some(r=>!Number.isSafeInteger(r.baseCents)||!Number.isSafeInteger(r.tipsCents));return !deliveries.length?'—':(fmtMoney(b)+' / '+fmtMoney(t))+(partial?' *':'')};
+ const waiting=data.pendingRecords.filter(r=>r.date===selected),waitingCents=sum(waiting),confirmedCents=sum(day);
+ $('fin-income-day').textContent=waiting.length?'Chờ Tips':day.length?fmtMoney(confirmedCents):'Chưa có Earnings';
+ $('fin-day-paid').textContent=fmtMoney(confirmedCents);
+ $('fin-day-pending').textContent=fmtMoney(waitingCents)+(waiting.length?' · '+waiting.length+' chuyến':'');
+ $('fin-day-estimate').textContent=fmtMoney(confirmedCents+waitingCents);
  $('fin-income-week').textContent=week.length?fmtMoney(sum(week)):'—';
  $('fin-income-day-split').textContent='Base / Tips: '+split(day);
  $('fin-income-week-split').textContent='Base / Tips: '+split(week);
  $('fin-income-month').textContent=month.length?fmtMoney(sum(month)):'—';
- $('fin-income-split').textContent=split(month);
+ $('fin-income-split').textContent=split(month);$('fin-income-specials').textContent=fmtMoney(sum(month.filter(r=>r.specialType)));
  $('fin-income-rate').textContent=mins>0?fmtMoney(Math.round(sum(week)*60/mins))+'/h':'—';
  $('fin-income-unfinished').textContent=missing+' ngày';
  $('fin-income-current-month').textContent='Tháng '+monthLabel(current);
  const prior=(()=>{const d=parseDate(today());d.setMonth(d.getMonth()-1);return localISO(d).slice(0,7)})();
- const priorRecords=data.records.filter(r=>ym(r.date)===prior),priorDone=data.finalDays.filter(d=>ym(d)===prior);
+ const priorRecords=all.filter(r=>ym(r.date)===prior),priorDone=data.finalDays.filter(d=>ym(d)===prior);
  const priorMissing=incompleteMonth(prior,data,entries),priorHas=priorRecords.length>0||priorDone.length>0;
  const grace=today()<prior+'-08'?false:today()<(monthPurgeDate(prior)||'9999-12-31');
  $('fin-income-retention-label').textContent='Tự chuyển ngày 01';
@@ -1033,28 +1145,64 @@ function renderIncome(){const data=incomeLoad(),selected=parseDate($('day')?.val
   $('fin-income-prior').textContent='Tổng tiền đã lưu: '+fmtMoney(sum(priorRecords))+' · Base / Tips: '+split(priorRecords);
  }
  const div=$('fin-income-history');div.replaceChildren();const groups={};
- for(const r of data.records){(groups[r.date]??=[]).push(r)}
+ for(const r of [...all,...data.pendingRecords.map(r=>({...r,pending:true}))]){(groups[r.date]??=[]).push(r)}
  for(const day of data.finalDays){if(!groups[day])groups[day]=[]}
  const dates=Object.keys(groups).sort().reverse();for(const date of dates){const rows=groups[date];const box=document.createElement('div');box.className='fin-history-day';const sumDay=sum(rows);
-  const heading=document.createElement('div');heading.className='fin-line';const title=document.createElement('b');title.textContent=prettyDate(date);const amount=document.createElement('b');amount.textContent=fmtMoney(sumDay);heading.append(title,amount);box.append(heading);
-  const caption=document.createElement('div');caption.className='fin-mini';caption.textContent=rows.length+' chuyến · Base / Tips: '+split(rows);box.append(caption);div.append(box);
+  const heading=document.createElement('div');heading.className='fin-line';const title=document.createElement('b');title.textContent=prettyDate(date);const amount=document.createElement('b');amount.textContent=fmtMoney(sumDay-rows.filter(r=>r.pending).reduce((n,r)=>n+r.cents,0));heading.append(title,amount);box.append(heading);
+  const caption=document.createElement('div');caption.className='fin-mini';caption.textContent=rows.filter(r=>!r.specialType&&!r.pending).length+' chuyến Paid'+(rows.some(r=>r.pending)?' · Chờ Tips: '+fmtMoney(rows.filter(r=>r.pending).reduce((n,r)=>n+r.cents,0)):'')+' · '+rows.filter(r=>r.specialType).map(r=>(specialLabels[r.specialType]||'Khác')+': '+fmtMoney(r.cents)).join(' · ')+' · Base / Tips: '+split(rows);box.append(caption);
+  const manage=document.createElement('details');manage.className='fin-history-manage';
+  const summary=document.createElement('summary');summary.textContent='Quản lý / Xóa ngày hoặc từng khoản';manage.append(summary);
+  for(const r of [...rows].sort((a,b)=>(a.start||'').localeCompare(b.start||''))){
+   const line=document.createElement('div');line.className='fin-delete-entry';
+   const txt=document.createElement('span');txt.textContent=(r.specialType?(specialLabels[r.specialType]||'Khoản cộng thêm'):(r.start+'–'+r.end+(r.pending?' · Chờ Tips':'')))+' · '+fmtMoney(r.cents);
+   const del=document.createElement('button');del.type='button';del.className='danger';del.textContent='Xóa';del.setAttribute('aria-label','Xóa '+txt.textContent+' ngày '+prettyDate(date));
+   const identity=r.specialType?'s|'+specialKey(r):'d|'+recordKey(r);
+   del.onclick=()=>deleteSavedIncome('entry',date,identity);line.append(txt,del);manage.append(line);
+  }
+  const delDay=document.createElement('button');delDay.type='button';delDay.className='danger fin-delete-day';delDay.textContent='🗑️ Xóa cả ngày '+prettyDate(date);
+  delDay.onclick=()=>deleteSavedIncome('day',date);manage.append(delDay);box.append(manage);div.append(box);
  }
  if(!dates.length)div.textContent='Chưa có thu nhập nào.';
 }
 function setupReviewRow(item){const r={...item};review.push(r);updateReview()}
 function updateReview(){const root=$('fin-income-review-list');root.replaceChildren();let idx=0;
- for(const r of review){const id=idx++;const outer=document.createElement('div');outer.className='fin-review-row';
+ for(const r of review){const id=idx++;const outer=document.createElement('details');outer.className='fin-review-row '+(r.kind==='special'?'fin-review-special':'fin-review-trip')+(r.pending?' fin-pending':'');const headline=document.createElement('summary');const headingText=()=>r.kind==='special'?(prettyDate(r.date)+' · '+(specialLabels[r.specialType]||'Khoản khác')+' · '+fmtMoney(r.cents||0)):(prettyDate(r.date)+' · '+(r.start||'--:--')+'–'+(r.end||'--:--')+' · '+fmtMoney(r.cents||0)+' · '+(r.pending?'Chờ Tips':'Paid'));headline.textContent=headingText();outer.append(headline);if(!validReview(r))outer.open=true;
+  if(r.kind==='special'){
+   const marker=document.createElement('b');marker.textContent='Khoản cộng thêm · Không có giờ chạy';outer.append(marker);
+   const grid=document.createElement('div');grid.className='fin-inputs';
+   const fields=[['Ngày','date','date'],['Loại khoản','select','specialType'],['Số tiền ($)','number','amount']];
+   for(const [label,type,key] of fields){const wrap=document.createElement('div'),l=document.createElement('label');l.textContent=label;let input;
+    if(type==='select'){input=document.createElement('select');for(const [value,name] of Object.entries(specialLabels)){const o=document.createElement('option');o.value=value;o.textContent=name;input.append(o)}input.value=r.specialType||'adjustment';}
+    else{input=document.createElement('input');input.type=type;if(type==='number'){input.step='0.01';input.min='0.01'}input.value=key==='amount'?(r.cents===null?'':(r.cents/100).toFixed(2)):r[key]||''}
+    input.addEventListener('input',()=>{if(key==='amount'){const n=Number(input.value);r.cents=input.value.trim()!==''&&Number.isFinite(n)&&n>0&&n<=1000000?Math.round(n*100):null}else r[key]=input.value;headline.textContent=headingText();updateReviewSummary()});l.append(input);wrap.append(l);grid.append(wrap)}
+   const controls=document.createElement('div');controls.className='fin-actions';const del=document.createElement('button');del.type='button';del.className='secondary';del.textContent='Bỏ khoản';del.onclick=()=>{review=review.filter(x=>x!==r);updateReview()};controls.append(del);outer.append(grid,controls);root.append(outer);continue;
+  }
   const fields=[['Ngày','date','date'],['Bắt đầu','time','start'],['Kết thúc','time','end'],['Tiền tổng ($)','number','amount'],['Base ($) · nếu biết','number','base'],['Tips ($) · nếu biết','number','tips']];const grid=document.createElement('div');grid.className='fin-inputs';
   for(const [label,type,key] of fields){const wrap=document.createElement('div'),l=document.createElement('label'),input=document.createElement('input');l.textContent=label;input.type=type;input.step=type==='number'?'0.01':'any';input.min=type==='number'?'0':undefined;input.value=key==='amount'?(r.cents===null?'':(r.cents/100).toFixed(2)):(key==='base'||key==='tips')?(Number.isSafeInteger(r[key+'Cents'])?(r[key+'Cents']/100).toFixed(2):''):r[key]||'';
-   input.addEventListener('input',()=>{if(key==='amount'||key==='base'||key==='tips'){const n=Number(input.value),c=input.value.trim()!==''&&Number.isFinite(n)&&n>=0&&n<=1000000?Math.round(n*100):null;if(key==='amount')r.cents=c;else r[key+'Cents']=c}else r[key]=input.value;updateReviewSummary()});l.append(input);wrap.append(l);grid.append(wrap)}
-  const controls=document.createElement('div');controls.className='fin-actions';const del=document.createElement('button');del.type='button';del.className='secondary';del.textContent='Bỏ chuyến';del.onclick=()=>{review=review.filter(x=>x!==r);updateReview()};controls.append(del);
+   input.addEventListener('input',()=>{if(key==='amount'||key==='base'||key==='tips'){const n=Number(input.value),c=input.value.trim()!==''&&Number.isFinite(n)&&n>=0&&n<=1000000?Math.round(n*100):null;if(key==='amount')r.cents=c;else r[key+'Cents']=c}else r[key]=input.value;headline.textContent=headingText();updateReviewSummary()});l.append(input);wrap.append(l);grid.append(wrap)}
+  const controls=document.createElement('div');controls.className='fin-actions';const status=document.createElement('label');status.textContent='Trạng thái trên Amazon';const selector=document.createElement('select');selector.className='fin-status-select';for(const [value,label] of [['paid','Paid · Đã chốt'],['pending','Tips pending · Tạm tính']]){const option=document.createElement('option');option.value=value;option.textContent=label;selector.append(option)}selector.value=r.pending?'pending':'paid';selector.onchange=()=>{r.pending=selector.value==='pending';headline.textContent=headingText();outer.classList.toggle('fin-pending',r.pending);updateReviewSummary()};status.append(selector);controls.append(status);const del=document.createElement('button');del.type='button';del.className='secondary';del.textContent='Bỏ chuyến';del.onclick=()=>{review=review.filter(x=>x!==r);updateReview()};controls.append(del);
   outer.append(grid,controls);root.append(outer);
  }
- updateReviewSummary();$('fin-income-review').hidden=false;
+ updateReviewSummary();renderIncomeReferences();$('fin-income-review').hidden=false;
 }
-function updateReviewSummary(){const good=review.filter(validIncome),dates=[...new Set(good.map(r=>r.date))];const cash=good.reduce((s,r)=>s+r.cents,0),invalid=review.length-good.length;
- $('fin-income-review-summary').textContent=`${good.length} chuyến hợp lệ · ${dates.length} ngày · ${fmtMoney(cash)}${invalid?' · '+invalid+' chuyến cần sửa':''}${blockedPending?' · '+blockedPending+' chuyến Tips pending bị bỏ qua':''}`;
- $('fin-income-confirm').checked=false;
+function updateReviewSummary(){
+ const good=review.filter(validReview),invalid=review.length-good.length,paid=good.filter(r=>r.kind!=='special'&&!r.pending),pending=good.filter(r=>r.kind!=='special'&&r.pending),specials=good.filter(r=>r.kind==='special');
+ const old=incomeLoad(),allDays=[...new Set(good.map(r=>r.date))].sort();
+ $('fin-income-review-summary').textContent=`${paid.length} Paid · ${pending.length} chờ Tips · ${specials.length} khoản cộng thêm${invalid?' · '+invalid+' dòng cần sửa':''}${dupReview?' · '+dupReview+' dòng ảnh trùng':''}`;
+ const list=$('fin-income-simple-days');list.replaceChildren();
+ for(const date of allDays){const d=paid.filter(r=>r.date===date),p=pending.filter(r=>r.date===date),sp=specials.filter(r=>r.date===date),oldPaid=old.records.filter(r=>r.date===date);
+  const paidMap=new Map(oldPaid.map(r=>[recordKey(r),r]));for(const r of d)paidMap.set(recordKey(r),r);
+  const pendingMap=new Map(old.pendingRecords.filter(r=>r.date===date).map(r=>[recordKey(r),r]));for(const r of p){if(!paidMap.has(recordKey(r)))pendingMap.set(recordKey(r),r)}for(const key of paidMap.keys())pendingMap.delete(key);
+  const extras=new Map(old.specials.filter(r=>r.date===date).map(r=>[specialKey(r),r]));for(const r of sp)extras.set(specialKey(r),r);
+  const saved=[...paidMap.values(),...extras.values()].reduce((n,r)=>n+r.cents,0),waiting=[...pendingMap.values()].reduce((n,r)=>n+r.cents,0);
+  const container=document.createElement('div');container.className='fin-simple-day';const head=document.createElement('div');const label=document.createElement('span');label.textContent=prettyDate(date);const amount=document.createElement('b');amount.textContent=fmtMoney(saved+waiting);head.append(label,amount);container.append(head);
+  const info=document.createElement('div');info.className='fin-mini';info.textContent=`${paidMap.size} chuyến Paid · ${fmtMoney(saved)} đã chốt${pendingMap.size?' · '+pendingMap.size+' chờ Tips ('+fmtMoney(waiting)+')':''}`;container.append(info);
+  const expected=Number(rolling()[date]?.a)||0,minutes=[...paidMap.values(),...pendingMap.values()].reduce((n,r)=>n+duration(r.start,r.end),0);
+  if(expected>0&&minutes+12<expected){const warn=document.createElement('div');warn.className='fin-mini fin-income-pending';warn.textContent='⚠️ Giờ Earnings '+fmtMinutes(minutes)+' / Rolling '+fmtMinutes(expected)+'. Có thể thiếu chuyến; vẫn lưu tạm được.';container.append(warn)}
+  list.append(container)
+ }
+ const msg=incomeOCRIssues.filter(x=>!/Tips pending/i.test(x));$('fin-income-ocr-warnings').textContent=msg.join('\n')||'Chưa có cảnh báo.';
+ $('fin-income-review-audit').textContent='';
 }
 const dateEnglish=line=>{
  let m=line.match(/\b(20\d{2})[-\/](\d{1,2})[-\/](\d{1,2})\b/);if(m)return [Number(m[1]),Number(m[2]),Number(m[3]),null];
@@ -1071,31 +1219,134 @@ const parseTime=(h,m,ap)=>{let hh=Number(h),mm=Number(m);if(hh<1||hh>12||mm>59)r
 const timeRange=/\b(\d{1,2}):(\d{2})\s*(AM|PM)\s*[-–—]\s*(\d{1,2}):(\d{2})\s*(AM|PM)\b/i;
 const moneyRegex=/\$\s*([\d,]+(?:\.\d{1,2})?)/g;
 const amountCents=s=>{const n=Number(String(s).replace(/,/g,''));return Number.isFinite(n)?Math.round(n*100):null};
-function parseIncomeOCR(text){let lines=String(text).replace(/[–—−]/g,'-').split(/\n/).map(s=>s.trim()).filter(Boolean),segments=[],group=null;
- for(const line of lines){const info=dateEnglish(line),date=inferEnglishDate(info);if(date){if(group)segments.push(group);group={date,lines:[line]}}else if(group)group.lines.push(line)}if(group)segments.push(group);
- const rows=[],warnings=[];
- for(const seg of segments){const joined=seg.lines.join(' | ');if(/instant cash out|payment issued|transfer completed|current balance/i.test(joined))continue;
-  const m=joined.match(timeRange);if(!m)continue;const start=parseTime(m[1],m[2],m[3]),end=parseTime(m[4],m[5],m[6]);if(!start||!end||duration(start,end)<=0||duration(start,end)>720)continue;
-  if(/tips?\s+pending/i.test(joined)){warnings.push(seg.date+' '+start+' Tips pending');continue}
-  if(!/\bpaid\b|\bbase\s*:|\btips\s*:|\bcompleted\b/i.test(joined)){warnings.push(seg.date+' '+start+' chưa rõ đã hoàn tất');continue}
-  // Base and Tips may be present on the same card; exclude their labels when finding the gross card total.
-  const card=joined.replace(/\b(?:base|tips)\s*:\s*\$?\s*[\d,]+(?:\.\d{1,2})?/gi,'');
-  const all=[...card.matchAll(moneyRegex)],gross=all.length?amountCents(all[0][1]):null;
-  const base=joined.match(/\bbase\s*:\s*\$?\s*([\d,]+(?:\.\d{1,2})?)/i),tips=joined.match(/\btips\s*:\s*\$?\s*([\d,]+(?:\.\d{1,2})?)/i);
-  const total=gross!==null?gross:(base&&tips?amountCents(base[1])+amountCents(tips[1]):null);
-  rows.push({date:seg.date,start,end,cents:total,baseCents:base?amountCents(base[1]):null,tipsCents:tips?amountCents(tips[1]):null});
+// Parse each Amazon Earnings card independently. Titles such as "Instant cash out" belong
+// to the NEXT dated card when they precede its date, not to the previous delivery.
+// The older parser appended these titles to the delivery and discarded the whole delivery.
+const incomeBoundary=/^(?:instant\s+cash\s*out|payment\s+sent|payment\s+issued|california\s+padsa|additional\s+tips?\s+added|earnings?\s+adjustment)\b/i;
+const isCashTransfer=text=>/instant\s+cash\s*out|payment\s+sent|payment\s+issued|transfer\s+completed|transfer\s+complete/i.test(text);
+const isIncomeSpecial=text=>/california\s+padsa.*?(?:health\s+subsidy|healthcare\s+subsidy)|health(?:care)?\s+subsidy|earnings?\s+adjustment|additional\s+tips?/i.test(text);
+function parseIncomeOCR(text){
+ const lines=String(text).replace(/[–—−]/g,'-').split(/\n/).map(v=>v.trim()).filter(Boolean);
+ const segments=[],warnings=[];let group=null,prelude=[];
+ const flush=()=>{if(group){segments.push(group);group=null}};
+ for(let i=0;i<lines.length;i++){
+  const line=lines[i],date=inferEnglishDate(dateEnglish(line));
+  if(date){flush();group={date,lines:[...prelude,line]};prelude=[];continue}
+  if(incomeBoundary.test(line)&&group){
+   // Amazon titles are sometimes printed on the line BEFORE a date.
+   // This split avoids contaminating the preceding card with a Cash Out/Adjustment title.
+   const upcoming=lines.slice(i+1,i+4).some(v=>!!inferEnglishDate(dateEnglish(v)));
+   if(upcoming&&(timeRange.test(group.lines.join(" "))||isCashTransfer(group.lines.join(" "))||isIncomeSpecial(group.lines.join(" "))||/\bpaid\b/i.test(group.lines.join(" ")))){flush();prelude=[line];continue}
+  }
+  if(group)group.lines.push(line);
+  else if(incomeBoundary.test(line))prelude.push(line);
  }
- return {rows,warnings};
+ flush();
+ const rows=[];let pending=0;
+ for(const seg of segments){
+  const joined=seg.lines.join(' | '),text=joined.replace(/\s+/g,' ');
+  const m=text.match(timeRange),start=m?parseTime(m[1],m[2],m[3]):null,end=m?parseTime(m[4],m[5],m[6]):null;
+  const transfer=isCashTransfer(text),special=isIncomeSpecial(text);
+  // Cash Out and Payment sent never create new income and must not poison a neighbor.
+  if(transfer&&!m)continue;
+  if(transfer&&m){warnings.push(seg.date+' có cả giờ chuyến và chữ chuyển tiền; kiểm tra ảnh này');continue}
+  if(!m&&special){let type=null;
+   if(/health(?:care)?\s+subsidy|california\s+padsa.*?health/i.test(text))type='health_subsidy';
+   else if(/earnings?\s+adjustment/i.test(text))type='adjustment';
+   else if(/additional\s+tips?/i.test(text))type='extra_tips';
+   if(type){const amounts=[...text.matchAll(moneyRegex)];const cents=amounts.length?amountCents(amounts[0][1]):null;
+    if(cents!==null&&cents>0)rows.push({kind:'special',date:seg.date,specialType:type,cents});
+    else warnings.push(seg.date+' '+specialLabels[type]+': thiếu số tiền; hãy thêm thủ công');
+    continue;
+   }
+  }
+  if(!m){if(/\$|base\s*:|tips\s*:|paid\b/i.test(text))warnings.push(seg.date+': có dòng tiền nhưng OCR không đọc được giờ hoặc ngày; kiểm tra/thêm chuyến thủ công');continue}
+  if(!start||!end||duration(start,end)<=0||duration(start,end)>720){warnings.push(seg.date+': giờ chuyến không hợp lệ');continue}
+  const pendingTips=/tips?\s+pending/i.test(text);if(pendingTips)pending++;
+  if(!pendingTips&&!/\bpaid\b|\bbase\s*:|\btips\s*:|\bcompleted\b/i.test(text)){
+   warnings.push(seg.date+' '+start+'–'+end+': chưa xác nhận Paid; kiểm tra ảnh');continue;
+  }
+  const base=text.match(/\bbase\s*:\s*\$?\s*([\d,]+(?:\.\d{1,2})?)/i),tips=text.match(/\btips\s*:\s*\$?\s*([\d,]+(?:\.\d{1,2})?)/i);
+  const b=base?amountCents(base[1]):null,t=tips?amountCents(tips[1]):null;
+  const trimmed=text.replace(/\b(?:base|tips)\s*:\s*\$?\s*[\d,]+(?:\.\d{1,2})?/gi,'');
+  const amounts=[...trimmed.matchAll(moneyRegex)],gross=amounts.length?amountCents(amounts[0][1]):null;
+  const total=gross!==null?gross:(b!==null&&t!==null?b+t:null);
+  if(total===null){warnings.push(seg.date+' '+start+': OCR thiếu tổng tiền; kiểm tra/thêm chuyến');continue}
+  if(b!==null&&t!==null&&b+t!==total){warnings.push(seg.date+' '+start+': tổng '+fmtMoney(total)+' khác Base+Tips '+fmtMoney(b+t)+'; cần kiểm tra');}
+  rows.push({kind:'delivery',date:seg.date,start,end,cents:total,baseCents:pendingTips?(b??total):b,tipsCents:pendingTips?null:t,pending:pendingTips});
+ }
+ return {rows,warnings,pending,segments:segments.length};
 }
-function importOCRImages(files){if(busy||!files.length)return;if(files.some(f=>!(f.type||'').startsWith('image/')&&!/\.(png|jpe?g|webp|heic|heif|bmp)$/i.test(f.name||''))){$('fin-income-status').textContent='Chỉ chọn file ảnh (PNG, JPG, HEIC, WEBP...).';$('fin-income-images').value='';return}busy=true;const isAppend=appendImages;appendImages=false;if(!isAppend){review=[];blockedPending=0;$('fin-income-confirm').checked=false}
+function incomeQuality(r){if(!r||!validReview(r))return -1;
+ if(r.kind==='special')return 1;
+ const split=Number.isSafeInteger(r.baseCents)&&Number.isSafeInteger(r.tipsCents);
+ return (split?4:0)+(r.cents>0?2:0);
+}
+function dedupIncomeReview(items){
+ const merged=new Map(),conflicts=[];let duplicates=0;
+ for(const r of items){
+  const key=recordKey(r),old=merged.get(key);
+  if(!old){merged.set(key,r);continue}
+  if(old.kind!=='special'&&!!old.pending!==!!r.pending){duplicates++;if(!r.pending)merged.set(key,r);continue}
+  // Same-day/time with different pay may be an OCR collision. Never silently
+  // discard either candidate: user must identify the correct one in preview.
+  if(old.cents!==r.cents){
+   const collisionKey=key+'|OCR-COLLISION|'+r.cents;
+   if(!merged.has(collisionKey)){
+    merged.set(collisionKey,r);
+    conflicts.push(`${prettyDate(r.date)} ${r.start||specialLabels[r.specialType]||''}: TRÙNG GIỜ nhưng KHÁC TIỀN ${fmtMoney(old.cents||0)} / ${fmtMoney(r.cents||0)}. Giữ cả hai để kiểm tra; phải bỏ dòng sai trước khi lưu.`);
+   }else duplicates++;
+   continue;
+  }
+  // Exact same delivery and amount across overlapping screenshots is safe
+  // to merge; favor the OCR result with a complete Base/Tips breakdown.
+  if(old.kind!=='special'&&Number.isSafeInteger(old.baseCents)&&Number.isSafeInteger(old.tipsCents)&&Number.isSafeInteger(r.baseCents)&&Number.isSafeInteger(r.tipsCents)&&
+      (old.baseCents!==r.baseCents||old.tipsCents!==r.tipsCents)){
+   const collisionKey=key+'|OCR-SPLIT|'+r.baseCents+'|'+r.tipsCents;
+   if(!merged.has(collisionKey)){
+    merged.set(collisionKey,r);
+    conflicts.push(`${prettyDate(r.date)} ${r.start}: cùng tổng ${fmtMoney(r.cents)} nhưng Base/Tips khác. Phải đối chiếu và bỏ dòng sai trước khi lưu.`);
+   }else duplicates++;
+   continue;
+  }
+  duplicates++;
+  if(incomeQuality(r)>incomeQuality(old))merged.set(key,r);
+ }
+ return {items:[...merged.values()],duplicates,conflicts};
+}
+function importOCRImages(files){
+ if(busy||!files.length)return;
+ if(files.some(f=>!(f.type||'').startsWith('image/')&&!/\.(png|jpe?g|webp|heic|heif|bmp)$/i.test(f.name||''))){$('fin-income-status').textContent='Chỉ chọn file ảnh (PNG, JPG, HEIC, WEBP...).';$('fin-income-images').value='';return}
+ busy=true;const isAppend=appendImages;appendImages=false;
+ if(!isAppend){clearIncomeEvidence();review=[];blockedPending=0;dupReview=0;incomeOCRIssues=[];incomePendingDates=new Set();incomePendingKeys=new Set();incomeOCRDayNotes=[];$('fin-income-confirm').checked=false}
  $('fin-income-review').hidden=false;$('fin-income-status').textContent='Đang đọc '+files.length+' ảnh…';
- (async()=>{try{if(!window.Tesseract){await new Promise((ok,err)=>{const sc=document.createElement('script');sc.src='https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js';sc.onload=ok;sc.onerror=()=>err(Error('Không tải được OCR khi offline'));document.head.append(sc)})}
-   const warnings=[];for(let i=0;i<files.length;i++){$('fin-income-status').textContent=`Đang đọc ảnh ${i+1}/${files.length}: ${files[i].name}`;const result=await Tesseract.recognize(files[i],'eng');const parsed=parseIncomeOCR(result.data.text);review.push(...parsed.rows);blockedPending+=parsed.warnings.length;warnings.push(...parsed.warnings)}
-   // Same block can occur in multiple screenshots: review it only once.
-   review=[...new Map(review.map(r=>[recordKey(r),r])).values()];updateReview();
-   $('fin-income-status').textContent='Đã đọc '+files.length+' ảnh, kiểm tra kỹ ngày/giờ/tiền trong bảng trước khi lưu.'+(warnings.length?' Lưu ý: '+warnings.slice(0,3).join('; '):'');
-  }catch(err){$('fin-income-status').textContent='Không thể nhận diện ảnh: '+err.message+'. Bạn có thể nhập tiền thủ công.';updateReview()}
-  finally{busy=false;$('fin-income-images').value=''}
+ (async()=>{try{
+  if(!window.Tesseract){await new Promise((ok,err)=>{const sc=document.createElement('script');sc.src='https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js';sc.onload=ok;sc.onerror=()=>err(Error('Không tải được OCR khi offline'));document.head.append(sc)})}
+  for(let i=0;i<files.length;i++){
+   $('fin-income-status').textContent=`Đang đọc ảnh ${i+1}/${files.length}: ${files[i].name}`;
+   const evidence={name:files[i].name,url:URL.createObjectURL(files[i]),text:'',note:'Đang OCR'};incomeEvidence.push(evidence);
+   const result=await Tesseract.recognize(files[i],'eng');const parsed=parseIncomeOCR(result.data.text);
+   evidence.text=result.data.text;evidence.note=parsed.rows.filter(r=>r.kind!=='special').length+' chuyến + '+parsed.rows.filter(r=>r.kind==='special').length+' khoản khác; '+parsed.warnings.length+' cảnh báo';
+   showIncomeEvidence();
+   for(const warning of parsed.warnings){const match=warning.match(/^\d{4}-\d{2}-\d{2}/);if(match&&!/Tips pending/i.test(warning))incomeProblemDates.add(match[0]);}
+   if(parsed.segments===0||(!parsed.rows.length&&!parsed.pending))incomeGlobalProblem=true;
+   review.push(...parsed.rows);blockedPending+=parsed.pending;
+   for(const w of parsed.warnings){incomeOCRIssues.push(`${files[i].name}: ${w}`);const match=w.match(/^\d{4}-\d{2}-\d{2}/);if(match&&/Tips pending/i.test(w)){incomePendingDates.add(match[0]);const parts=w.match(/^(\d{4}-\d{2}-\d{2}) (\d{2}:\d{2})[–-](\d{2}:\d{2}) Tips pending/);if(parts)incomePendingKeys.add(parts[1]+'|'+parts[2]+'|'+parts[3]);}}
+   incomeOCRDayNotes.push(`Ảnh ${i+1} (${files[i].name}): ${parsed.rows.filter(r=>r.kind!=='special').length} chuyến, ${parsed.rows.filter(r=>r.kind==='special').length} khoản khác, ${parsed.pending} Tips pending, ${parsed.warnings.length} cảnh báo`);
+   if(parsed.segments===0)incomeOCRIssues.push(files[i].name+': không tìm được dòng ngày trong ảnh — có thể OCR bỏ sót toàn bộ.');
+   else if(!parsed.rows.length&&!parsed.pending)incomeOCRIssues.push(files[i].name+': không tìm được chuyến/khoản tiền, cần kiểm tra ảnh.');
+  }
+  const result=dedupIncomeReview(review);review=result.items;dupReview+=result.duplicates;
+  incomeOCRIssues.push(...result.conflicts);
+  // If one screenshot was taken while Tips were pending and a later screenshot
+  // shows the same block Paid, do not keep this date falsely flagged as pending.
+  const paidKeys=new Set(review.filter(r=>r.kind!=='special'&&!r.pending).map(recordKey));
+  const oldKeys=new Set(incomeLoad().records.map(recordKey));
+  incomePendingDates=new Set(review.filter(r=>r.pending&&!paidKeys.has(recordKey(r))&&!oldKeys.has(recordKey(r))).map(r=>r.date));
+  updateReview();$('fin-income-confirm').checked=false;
+  $('fin-income-status').textContent=`Đã đọc ${files.length} ảnh. ${review.length} mục sau gộp trùng; ${incomeOCRIssues.length} cảnh báo. Vui lòng so ngày/giờ/tổng tiền với ảnh trước khi lưu.`;
+ }catch(err){incomeOCRIssues.push('Lỗi OCR: '+err.message);$('fin-income-status').textContent='Lỗi OCR: '+err.message+'. Đã giữ kết quả đọc trước đó; bạn có thể thêm ảnh hoặc nhập tay.';updateReview()}
+ finally{busy=false;$('fin-income-images').value=''}
  })();
 }
 const incomeChoose=append=>{appendImages=append;
@@ -1105,21 +1356,50 @@ $('fin-income-upload').onclick=()=>incomeChoose(false);$('fin-income-more').oncl
 $('fin-income-source-photos').onclick=()=>{$('fin-income-source').hidden=true;$('fin-income-images').accept='image/*';$('fin-income-images').click()};
 $('fin-income-source-files').onclick=()=>{$('fin-income-source').hidden=true;$('fin-income-images').accept='*/*';$('fin-income-images').click()};
 $('fin-income-images').onchange=e=>importOCRImages([...e.target.files]);
-function addManual(){setupReviewRow({date:parseDate($('day')?.value)?$('day').value:today(),start:'',end:'',cents:null});$('fin-income-status').textContent='Nhập ngày, giờ và tổng tiền đã có Base + Tips.'}
-$('fin-income-add').onclick=addManual;$('fin-income-more-manual').onclick=addManual;
-$('fin-income-cancel').onclick=()=>{$('fin-income-review').hidden=true;review=[];blockedPending=0};
+function addManual(){setupReviewRow({kind:'delivery',date:parseDate($('day')?.value)?$('day').value:today(),start:'',end:'',cents:null});$('fin-income-status').textContent='Nhập ngày, giờ và tổng tiền đã có Base + Tips.'}
+function addSpecial(){setupReviewRow({kind:'special',date:parseDate($('day')?.value)?$('day').value:today(),specialType:'adjustment',cents:null});$('fin-income-status').textContent='Chọn loại khoản cộng thêm, ngày Amazon ghi nhận và số tiền. Không tính Instant Cash Out hay Payment sent.'}
+$('fin-income-add').onclick=addManual;$('fin-income-more-manual').onclick=addManual;$('fin-income-add-special').onclick=addSpecial;$('fin-income-more-special').onclick=addSpecial;
+$('fin-income-cancel').onclick=()=>{$('fin-income-review').hidden=true;review=[];blockedPending=0;dupReview=0;incomePendingDates=new Set();incomeOCRIssues=[];incomeOCRDayNotes=[];clearIncomeEvidence()};
 $('fin-income-save').onclick=()=>{
- if(!review.length){alert('Chưa có chuyến nào để lưu.');return}
- if(review.some(r=>!validIncome(r))){alert('Hãy kiểm tra ngày, giờ và số tiền tất cả chuyến trước khi lưu.');return}
- if(blockedPending){alert('Có '+blockedPending+' chuyến Tips pending trong ảnh. Vui lòng chờ Amazon cập nhật đầy đủ rồi upload lại ảnh, hoặc xóa lượt ảnh này trước khi lưu.');return}
- if(!$('fin-income-confirm').checked){alert('Hãy xác nhận đã đủ Base + Tips và đủ tất cả chuyến của những ngày sẽ chốt.');return}
- const distinct=new Map(review.map(r=>[recordKey(r),r]));if(distinct.size!==review.length&&!confirm('Có chuyến trùng giờ trong bản kiểm tra. Chỉ lưu một lần cho mỗi chuyến. Tiếp tục?'))return;
- const data=incomeLoad();const dates=[...new Set(review.map(r=>r.date))];
- // Each confirmed day is complete: replace its older rows rather than add stale overlapping rows. Other dates remain unchanged.
- const keys=new Map(data.records.filter(r=>!dates.includes(r.date)).map(r=>[recordKey(r),r]));
- for(const r of distinct.values())keys.set(recordKey(r),{date:r.date,start:r.start,end:r.end,cents:r.cents,baseCents:r.baseCents??null,tipsCents:r.tipsCents??null,updatedAt:new Date().toISOString()});
- data.records=[...keys.values()].sort((a,b)=>a.date.localeCompare(b.date)||a.start.localeCompare(b.start));data.finalDays=[...new Set([...data.finalDays,...dates])].sort();
- localStorage.setItem(MONEYKEY,JSON.stringify(data));pruneExpired();review=[];blockedPending=0;$('fin-income-review').hidden=true;renderIncome();$('fin-income-status').textContent='Đã chốt thu nhập '+dates.map(prettyDate).join(', ')+'. Không thay đổi giờ Rolling.';
+ if(!review.length){alert('Chưa có chuyến hoặc khoản tiền nào để lưu.');return}
+ if(review.some(r=>!validReview(r))){alert('Có dòng OCR chưa đủ ngày, giờ hoặc số tiền. Chạm dòng đó để chỉnh hoặc chọn Bỏ.');return}
+ if(!$('fin-income-confirm').checked){alert('Hãy đánh dấu xác nhận đã xem danh sách giao dịch.');return}
+ const distinct=new Map(),specials=new Map();let collisions=0;
+ for(const r of review){if(r.kind==='special'){specials.set(specialKey(r),r);continue}
+  const key=recordKey(r),old=distinct.get(key);
+  if(!old){distinct.set(key,r);continue}
+  if(!!old.pending!==!!r.pending){if(!r.pending)distinct.set(key,r);continue}
+  if(old.cents!==r.cents||(Number.isSafeInteger(old.baseCents)&&Number.isSafeInteger(r.baseCents)&&old.baseCents!==r.baseCents)||(Number.isSafeInteger(old.tipsCents)&&Number.isSafeInteger(r.tipsCents)&&old.tipsCents!==r.tipsCents)){collisions++;continue}
+  if(incomeQuality(r)>incomeQuality(old))distinct.set(key,r)
+ }
+ if(collisions){alert('Có '+collisions+' cặp cùng ngày/giờ nhưng khác tiền. Hãy mở các dòng và bỏ kết quả OCR sai trước khi lưu.');return}
+ const data=incomeLoad(),savedPaid=new Map(data.records.map(r=>[recordKey(r),r])),savedPending=new Map(data.pendingRecords.map(r=>[recordKey(r),r]));
+ const now=new Date().toISOString(),touchedDates=new Set(),pendingDates=new Set();let newPaid=0,newPending=0,updated=0;
+ for(const r of distinct.values()){
+  const key=recordKey(r),date=r.date;touchedDates.add(date);
+  if(r.pending){if(savedPaid.has(key))continue;pendingDates.add(date);if(!savedPending.has(key))newPending++;savedPending.set(key,{date,start:r.start,end:r.end,cents:r.cents,baseCents:r.baseCents??null,tipsCents:null,updatedAt:now});continue}
+  if(savedPaid.has(key))updated++;else newPaid++;
+  const previous=savedPaid.get(key),preserve=previous&&previous.cents===r.cents;
+  savedPaid.set(key,{date,start:r.start,end:r.end,cents:r.cents,baseCents:r.baseCents??(preserve?previous.baseCents:null)??null,tipsCents:r.tipsCents??(preserve?previous.tipsCents:null)??null,updatedAt:now});
+  savedPending.delete(key);
+ }
+ for(const [key] of savedPaid)savedPending.delete(key);
+ for(const r of savedPending.values())pendingDates.add(r.date);
+ const extras=new Map(data.specials.map(r=>[specialKey(r),r]));let newExtras=0;
+ for(const r of specials.values())if(!extras.has(specialKey(r))){newExtras++;extras.set(specialKey(r),{date:r.date,specialType:r.specialType,cents:r.cents,updatedAt:now});touchedDates.add(r.date)}
+ data.records=[...savedPaid.values()].sort((a,b)=>a.date.localeCompare(b.date)||a.start.localeCompare(b.start));
+ data.pendingRecords=[...savedPending.values()].sort((a,b)=>a.date.localeCompare(b.date)||a.start.localeCompare(b.start));
+ data.specials=[...extras.values()].sort((a,b)=>a.date.localeCompare(b.date)||a.specialType.localeCompare(b.specialType));
+ const complete=new Set(data.finalDays.filter(d=>!pendingDates.has(d)));
+ let missingDays=0;
+ for(const date of touchedDates){if(pendingDates.has(date)){complete.delete(date);continue}
+  const expected=Number(rolling()[date]?.a)||0,minutes=data.records.filter(r=>r.date===date).reduce((n,r)=>n+duration(r.start,r.end),0);
+  if(expected>0&&minutes+12<expected){complete.delete(date);missingDays++}else if(expected>0&&minutes>=expected-12)complete.add(date);
+ }
+ data.finalDays=[...complete].sort();data.version=3;
+ localStorage.setItem(MONEYKEY,JSON.stringify(data));resetIncomeDeleteUndo();pruneExpired();
+ review=[];blockedPending=0;dupReview=0;incomePendingDates=new Set();incomePendingKeys=new Set();incomeOCRIssues=[];incomeOCRDayNotes=[];clearIncomeEvidence();$('fin-income-review').hidden=true;
+ renderIncome();$('fin-income-status').textContent='Đã lưu '+newPaid+' chuyến Paid mới, '+newPending+' chuyến chờ Tips, cập nhật '+updated+' chuyến cũ, '+newExtras+' khoản cộng thêm.'+(missingDays?' ⚠️ '+missingDays+' ngày có thể thiếu chuyến, chưa chốt.':'')+' Dữ liệu Rolling không đổi.';
 };
 function healthEstimate(h,q,asDate){if(!Number.isSafeInteger(h.confirmedMinutes)||!parseDate(h.asOf)||h.asOf<q.from||h.asOf>asDate)return {confirmed:null,estimated:null,unconfirmed:0};
  const end=asDate<q.to?asDate:q.to,unconfirmed=nextDay(h.asOf,1)<=end?totalDays(rolling(),nextDay(h.asOf,1),end):0;return {confirmed:h.confirmedMinutes,estimated:h.confirmedMinutes+unconfirmed,unconfirmed};}
@@ -1173,11 +1453,11 @@ const checkHealthcare=h=>{if(!h||typeof h!=='object')throw Error('Dữ liệu He
  }
 };
 window.flexFinanceValidate=(p)=>{
- if(p.income!==undefined){if(!p.income||typeof p.income!=='object'||!Array.isArray(p.income.records)||!Array.isArray(p.income.finalDays)||p.income.records.some(r=>!validIncome(r))||p.income.finalDays.some(d=>!parseDate(d)))throw Error('Dữ liệu thu nhập trong JSON không hợp lệ');}
+ if(p.income!==undefined){if(!p.income||typeof p.income!=='object'||!Array.isArray(p.income.records)||!Array.isArray(p.income.finalDays)||(p.income.specials!==undefined&&(!Array.isArray(p.income.specials)||p.income.specials.some(r=>!validSpecial(r))))||(p.income.pendingRecords!==undefined&&(!Array.isArray(p.income.pendingRecords)||p.income.pendingRecords.some(r=>!validIncome(r))))||p.income.records.some(r=>!validIncome(r))||p.income.finalDays.some(d=>!parseDate(d)))throw Error('Dữ liệu thu nhập trong JSON không hợp lệ');}
  if(p.healthcare!==undefined)checkHealthcare(p.healthcare);
 };
 window.flexFinanceImport=p=>{window.flexFinanceValidate(p);
- if(p.income!==undefined)localStorage.setItem(MONEYKEY,JSON.stringify(p.income));
+ if(p.income!==undefined){localStorage.setItem(MONEYKEY,JSON.stringify(p.income));resetIncomeDeleteUndo();}
  if(p.healthcare!==undefined)localStorage.setItem(HEALTHKEY,JSON.stringify(p.healthcare));
  healthInputsDirty=false;vacInputsDirty=false;refresh();
 };
